@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EZ Overflow Survey — EZ Hi-Tech Partners</title>
+<style>
+  :root{
+    --navy: #0c2d55;
+    --navy-deep: #081d38;
+    --black: #0a0a0a;
+    --gold: #c9973f;
+    --gold-light: #e0b566;
+    --ink: #1a1f29;
+    --muted: #5b6472;
+    --line: #e3e2dd;
+    --paper: #fbfaf7;
+    --card: #ffffff;
+    --radius: 10px;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    background: var(--paper);
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    color: var(--ink);
+  }
+  .wrap{
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 0 4rem;
+  }
+
+  /* ---- Header ---- */
+  .brand-bar{
+    background: var(--navy);
+    text-align:center;
+    padding: 14px 20px;
+  }
+  .brand-bar span{
+    color:#fff;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .hero{
+    background: var(--black);
+    text-align:center;
+    padding: 28px 20px 32px;
+  }
+  .hero img{
+    max-width: 320px;
+    width: 80%;
+    height: auto;
+  }
+  .tagline{
+    background: var(--navy);
+    text-align:center;
+    padding: 12px 20px;
+  }
+  .tagline p{
+    margin:0;
+    color:#fff;
+    font-size: 14px;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+  .tagline p.sub{
+    font-weight: 400;
+    opacity: 0.85;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* ---- Progress ---- */
+  .progress-track{
+    display:flex;
+    justify-content:center;
+    gap: 8px;
+    padding: 22px 20px 4px;
+  }
+  .progress-step{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-dot{
+    width: 22px; height:22px;
+    border-radius:50%;
+    border: 1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 11px;
+    color: var(--muted);
+    background:#fff;
+  }
+  .progress-step.active .progress-dot{
+    background: var(--navy);
+    border-color: var(--navy);
+    color:#fff;
+  }
+  .progress-step.done .progress-dot{
+    background: var(--gold);
+    border-color: var(--gold);
+    color:#fff;
+  }
+  .progress-line{
+    width: 30px; height:1.5px; background: var(--line);
+  }
+
+  /* ---- Card sections ---- */
+  form{ padding: 8px 20px 0; }
+  .section{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 24px 22px;
+    margin-top: 22px;
+    display:none;
+  }
+  .section.active{ display:block; }
+
+  .pill{
+    display:inline-block;
+    background: var(--navy);
+    color:#fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  .field{ margin-bottom: 18px; }
+  .field label{
+    display:block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .field label .req{ color: var(--gold); margin-left:2px; }
+  .field .hint{
+    font-size: 12px;
+    color: var(--muted);
+    margin: -2px 0 6px;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], textarea, select{
+    width:100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    background: #fff;
+  }
+  input:focus, textarea:focus, select:focus{
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(12,45,85,0.1);
+  }
+  textarea{ resize: vertical; min-height: 70px; }
+
+  .row-2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 480px){
+    .row-2{ grid-template-columns: 1fr; }
+  }
+
+  .choice-group{ display:flex; flex-direction:column; gap:9px; }
+  .choice-group.grid-2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+  @media (max-width: 480px){
+    .choice-group.grid-2{ grid-template-columns: 1fr; }
+  }
+  .choice{
+    display:flex;
+    align-items:flex-start;
+    gap: 9px;
+    font-size: 14px;
+    color: var(--ink);
+    cursor:pointer;
+  }
+  .choice input{
+    margin-top: 3px;
+    accent-color: var(--navy);
+    width:15px; height:15px;
+    flex-shrink:0;
+  }
+
+  .boundary-note{
+    background: #f4f6f8;
+    border-left: 3px solid var(--navy);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  /* ---- Nav buttons ---- */
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top: 24px;
+    padding: 0 20px;
+  }
+  .btn{
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 26px;
+    border-radius: 7px;
+    cursor:pointer;
+    border: none;
+  }
+  .btn-primary{
+    background: var(--navy);
+    color:#fff;
+  }
+  .btn-primary:hover{ background: var(--navy-deep); }
+  .btn-ghost{
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover{ border-color: var(--muted); }
+  .btn:disabled{ opacity:0; pointer-events:none; }
+
+  /* ---- Confirmation ---- */
+  .confirm{
+    text-align:center;
+    padding: 40px 24px;
+    display:none;
+  }
+  .confirm.active{ display:block; }
+  .confirm h2{
+    color: var(--navy);
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .confirm p{
+    color: var(--muted);
+    font-size: 14px;
+    line-height:1.6;
+  }
+
+  .status-msg{
+    text-align:center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 14px;
+    min-height: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="brand-bar"><span>EZ Overflow</span></div>
+  <div class="hero">
+    <img src="ez-overflow-logo.png" alt="EZ Overflow — B2B Printing Partner">
+  </div>
+  <div class="tagline">
+    <p>Trade only — exclusive for EZ partners</p>
+    <p class="sub">EZ Overflow survey</p>
+  </div>
+
+  <div class="progress-track" id="progressTrack">
+    <div class="progress-step active" data-step="1"><div class="progress-dot">1</div></div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="2"><div class="progress-dot">2</div></div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="3"><div class="progress-dot">3</div></div>
+  </div>
+
+  <form id="surveyForm">
+
+    <!-- STEP 1 -->
+    <div class="section active" data-section="1">
+      <span class="pill">Your info</span>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Company name<span class="req">*</span></label>
+          <input type="text" name="company_name" required>
+        </div>
+        <div class="field">
+          <label>Contact name<span class="req">*</span></label>
+          <input type="text" name="contact_name" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Contact email<span class="req">*</span></label>
+          <input type="email" name="contact_email" required>
+        </div>
+        <div class="field">
+          <label>Contact phone</label>
+          <input type="tel" name="contact_phone">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="section" data-section="2">
+      <span class="pill">Job specs</span>
+
+      <div class="field">
+        <label>EZ Overflow — use case<span class="req">*</span></label>
+        <div class="choice-group">
+          <label class="choice"><input type="checkbox" name="use_case" value="Introduce Digital Printing to Clients"> Introduce digital printing to clients</label>
+          <label class="choice"><input type="checkbox" name="use_case" value="Increase Capacity/Overflow"> Increase capacity / overflow</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Print volume per job<span class="req">*</span></label>
+        <div class="choice-group grid-2">
+          <label class="choice"><input type="radio" name="volume" value="< 500"> &lt; 500</label>
+          <label class="choice"><input type="radio" name="volume" value="500-2,500"> 500 – 2,500</label>
+          <label class="choice"><input type="radio" name="volume" value="2,500-10,000"> 2,500 – 10,000</label>
+          <label class="choice"><input type="radio" name="volume" value="10,000+"> 10,000+</label>
+          <label class="choice"><input type="radio" name="volume" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="boundary-note">
+        EZ Overflow currently handles printing and in-line booklet finishing. If your job requires offline cutting, folding, or bindery, let us know so we can confirm fit.
+      </div>
+
+      <div class="field">
+        <label>Finishing requirements</label>
+        <div class="choice-group">
+          <label class="choice"><input type="radio" name="finishing" value="No - flat sheets / booklet only"> No — flat sheets / booklet only</label>
+          <label class="choice"><input type="radio" name="finishing" value="Yes - requires offline cutting, folding, or bindery"> Yes — requires offline cutting, folding, or bindery</label>
+          <label class="choice"><input type="radio" name="finishing" value="Not sure"> Not sure</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Substrate / paper notes</label>
+        <div class="hint">Optional — any specific paper or substrate needs?</div>
+        <input type="text" name="substrate_notes">
+      </div>
+
+      <div class="field">
+        <label>Typical jobs for overflow</label>
+        <div class="hint">Optional</div>
+        <textarea name="job_description"></textarea>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="section" data-section="3">
+      <span class="pill">Logistics</span>
+
+      <div class="field">
+        <label>Requested turn time<span class="req">*</span></label>
+        <div class="choice-group grid-2">
+          <label class="choice"><input type="radio" name="turn_time" value="Same day / Next Day"> Same day / next day</label>
+          <label class="choice"><input type="radio" name="turn_time" value="48 Hours"> 48 hours</label>
+          <label class="choice"><input type="radio" name="turn_time" value="72 Hours"> 72 hours</label>
+          <label class="choice"><input type="radio" name="turn_time" value="4-5 Business Days"> 4–5 business days</label>
+          <label class="choice"><input type="radio" name="turn_time" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Preferred handoff method</label>
+        <div class="choice-group">
+          <label class="choice"><input type="checkbox" name="handoff" value="Email"> Email</label>
+          <label class="choice"><input type="checkbox" name="handoff" value="File Portal"> File portal</label>
+          <label class="choice"><input type="checkbox" name="handoff" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Proofing expectations</label>
+        <div class="choice-group">
+          <label class="choice"><input type="checkbox" name="proofing" value="PDF proof/approval only"> PDF proof / approval only</label>
+          <label class="choice"><input type="checkbox" name="proofing" value="Printed proof required (physical sample)"> Printed proof required (physical sample)</label>
+          <label class="choice"><input type="checkbox" name="proofing" value="Depends on the job/customer"> Depends on the job / customer</label>
+          <label class="choice"><input type="checkbox" name="proofing" value="Other"> Other</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button type="button" class="btn btn-ghost" id="backBtn" disabled>Back</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Submit survey</button>
+    </div>
+    <div class="status-msg" id="statusMsg"></div>
+  </form>
+
+  <div class="confirm" id="confirmBlock">
+    <h2>Thanks for completing the EZ Overflow survey</h2>
+    <p>We'll review your preferences and follow up directly.</p>
+  </div>
+
+</div>
+
+<script>
+  // ---- CONFIGURE THIS: paste your Google Apps Script Web App URL here once deployed ----
+  const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  const totalSteps = 3;
+  let currentStep = 1;
+
+  const form = document.getElementById('surveyForm');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const confirmBlock = document.getElementById('confirmBlock');
+
+  function showStep(step){
+    document.querySelectorAll('.section').forEach(sec=>{
+      sec.classList.toggle('active', Number(sec.dataset.section) === step);
+    });
+    document.querySelectorAll('.progress-step').forEach(ps=>{
+      const s = Number(ps.dataset.step);
+      ps.classList.toggle('active', s === step);
+      ps.classList.toggle('done', s < step);
+    });
+    backBtn.disabled = step === 1;
+    nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
+    submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
+  }
+
+  function validateStep(step){
+    const section = document.querySelector(`.section[data-section="${step}"]`);
+    const requiredFields = section.querySelectorAll('[required]');
+    for (const f of requiredFields){
+      if (!f.value.trim()){
+        f.focus();
+        statusMsg.textContent = 'Please fill in the required fields before continuing.';
+        return false;
+      }
+    }
+    if (step === 2){
+      const useCase = section.querySelectorAll('input[name="use_case"]:checked');
+      if (useCase.length === 0){
+        statusMsg.textContent = 'Please select at least one use case.';
+        return false;
+      }
+      const volume = section.querySelector('input[name="volume"]:checked');
+      if (!volume){
+        statusMsg.textContent = 'Please select a print volume.';
+        return false;
+      }
+    }
+    if (step === 3){
+      const turnTime = section.querySelector('input[name="turn_time"]:checked');
+      if (!turnTime){
+        statusMsg.textContent = 'Please select a requested turn time.';
+        return false;
+      }
+    }
+    statusMsg.textContent = '';
+    return true;
+  }
+
+  nextBtn.addEventListener('click', ()=>{
+    if (!validateStep(currentStep)) return;
+    currentStep = Math.min(currentStep + 1, totalSteps);
+    showStep(currentStep);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  backBtn.addEventListener('click', ()=>{
+    currentStep = Math.max(currentStep - 1, 1);
+    showStep(currentStep);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!validateStep(3)) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const formData = new FormData(form);
+    const payload = {};
+    for (const [key, value] of formData.entries()){
+      if (payload[key]){
+        payload[key] = Array.isArray(payload[key]) ? [...payload[key], value] : [payload[key], value];
+      } else {
+        payload[key] = value;
+      }
+    }
+    payload.submitted_at = new Date().toISOString();
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(()=>{
+      form.style.display = 'none';
+      document.getElementById('progressTrack').style.display = 'none';
+      confirmBlock.classList.add('active');
+    })
+    .catch(()=>{
+      statusMsg.textContent = 'Something went wrong submitting the survey. Please try again.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit survey';
+    });
+  });
+
+  showStep(currentStep);
+</script>
+
+</body>
+</html>
