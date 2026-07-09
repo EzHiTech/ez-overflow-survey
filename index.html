@@ -198,6 +198,14 @@
     flex-shrink:0;
   }
 
+  .other-input{
+    display:none;
+    margin-top: 8px;
+    margin-left: 24px;
+    max-width: calc(100% - 24px);
+  }
+  .other-input.show{ display:block; }
+
   .boundary-note{
     background: #f4f6f8;
     border-left: 3px solid var(--navy);
@@ -321,7 +329,8 @@
       <span class="pill">Job specs</span>
 
       <div class="field">
-        <label>EZ Overflow — use case<span class="req">*</span></label>
+        <label>EZ Overflow — use case</label>
+        <div class="hint">Optional — but helps us determine the best approach for your shop</div>
         <div class="choice-group">
           <label class="choice"><input type="checkbox" name="use_case" value="Introduce Digital Printing to Clients"> Introduce digital printing to clients</label>
           <label class="choice"><input type="checkbox" name="use_case" value="Increase Capacity/Overflow"> Increase capacity / overflow</label>
@@ -329,14 +338,16 @@
       </div>
 
       <div class="field">
-        <label>Print volume per job<span class="req">*</span></label>
+        <label>Print volume per job</label>
+        <div class="hint">Optional</div>
         <div class="choice-group grid-2">
           <label class="choice"><input type="radio" name="volume" value="< 500"> &lt; 500</label>
           <label class="choice"><input type="radio" name="volume" value="500-2,500"> 500 – 2,500</label>
           <label class="choice"><input type="radio" name="volume" value="2,500-10,000"> 2,500 – 10,000</label>
           <label class="choice"><input type="radio" name="volume" value="10,000+"> 10,000+</label>
-          <label class="choice"><input type="radio" name="volume" value="Other"> Other</label>
+          <label class="choice"><input type="radio" name="volume" value="Other" data-other-toggle="volume_other_input"> Other</label>
         </div>
+        <input type="text" class="other-input" id="volume_other_input" name="volume_other_text" placeholder="Please specify">
       </div>
 
       <div class="boundary-note">
@@ -370,14 +381,16 @@
       <span class="pill">Logistics</span>
 
       <div class="field">
-        <label>Requested turn time<span class="req">*</span></label>
+        <label>Requested turn time</label>
+        <div class="hint">Optional</div>
         <div class="choice-group grid-2">
           <label class="choice"><input type="radio" name="turn_time" value="Same day / Next Day"> Same day / next day</label>
           <label class="choice"><input type="radio" name="turn_time" value="48 Hours"> 48 hours</label>
           <label class="choice"><input type="radio" name="turn_time" value="72 Hours"> 72 hours</label>
           <label class="choice"><input type="radio" name="turn_time" value="4-5 Business Days"> 4–5 business days</label>
-          <label class="choice"><input type="radio" name="turn_time" value="Other"> Other</label>
+          <label class="choice"><input type="radio" name="turn_time" value="Other" data-other-toggle="turn_time_other_input"> Other</label>
         </div>
+        <input type="text" class="other-input" id="turn_time_other_input" name="turn_time_other_text" placeholder="Please specify">
       </div>
 
       <div class="field">
@@ -385,8 +398,9 @@
         <div class="choice-group">
           <label class="choice"><input type="checkbox" name="handoff" value="Email"> Email</label>
           <label class="choice"><input type="checkbox" name="handoff" value="File Portal"> File portal</label>
-          <label class="choice"><input type="checkbox" name="handoff" value="Other"> Other</label>
+          <label class="choice"><input type="checkbox" name="handoff" value="Other" data-other-toggle="handoff_other_input"> Other</label>
         </div>
+        <input type="text" class="other-input" id="handoff_other_input" name="handoff_other_text" placeholder="Please specify">
       </div>
 
       <div class="field">
@@ -395,8 +409,9 @@
           <label class="choice"><input type="checkbox" name="proofing" value="PDF proof/approval only"> PDF proof / approval only</label>
           <label class="choice"><input type="checkbox" name="proofing" value="Printed proof required (physical sample)"> Printed proof required (physical sample)</label>
           <label class="choice"><input type="checkbox" name="proofing" value="Depends on the job/customer"> Depends on the job / customer</label>
-          <label class="choice"><input type="checkbox" name="proofing" value="Other"> Other</label>
+          <label class="choice"><input type="checkbox" name="proofing" value="Other" data-other-toggle="proofing_other_input"> Other</label>
         </div>
+        <input type="text" class="other-input" id="proofing_other_input" name="proofing_other_text" placeholder="Please specify">
       </div>
     </div>
 
@@ -429,6 +444,39 @@
   const statusMsg = document.getElementById('statusMsg');
   const confirmBlock = document.getElementById('confirmBlock');
 
+  // Show/hide the write-in text box when an "Other" option is selected
+  document.querySelectorAll('[data-other-toggle]').forEach(control=>{
+    const targetInput = document.getElementById(control.dataset.otherToggle);
+    const groupName = control.name;
+
+    control.addEventListener('change', ()=>{
+      if (control.type === 'radio'){
+        // Radio groups: show only if this specific "Other" radio is the one checked
+        document.querySelectorAll(`input[name="${groupName}"]`).forEach(sibling=>{
+          const siblingTarget = sibling.dataset.otherToggle ? document.getElementById(sibling.dataset.otherToggle) : null;
+          if (siblingTarget) siblingTarget.classList.toggle('show', sibling.checked);
+        });
+      } else {
+        // Checkboxes: independent toggle
+        targetInput.classList.toggle('show', control.checked);
+      }
+    });
+  });
+
+  // Replaces a literal "Other" value with the person's actual write-in text
+  function resolveOther(payload, fieldName, otherTextKey){
+    const val = payload[fieldName];
+    if (!val) return;
+    const otherText = (payload[otherTextKey] || '').trim();
+    if (Array.isArray(val)){
+      const idx = val.indexOf('Other');
+      if (idx !== -1) val[idx] = otherText ? `Other: ${otherText}` : 'Other (unspecified)';
+    } else if (val === 'Other'){
+      payload[fieldName] = otherText ? `Other: ${otherText}` : 'Other (unspecified)';
+    }
+    delete payload[otherTextKey];
+  }
+
   function showStep(step){
     document.querySelectorAll('.section').forEach(sec=>{
       sec.classList.toggle('active', Number(sec.dataset.section) === step);
@@ -450,25 +498,6 @@
       if (!f.value.trim()){
         f.focus();
         statusMsg.textContent = 'Please fill in the required fields before continuing.';
-        return false;
-      }
-    }
-    if (step === 2){
-      const useCase = section.querySelectorAll('input[name="use_case"]:checked');
-      if (useCase.length === 0){
-        statusMsg.textContent = 'Please select at least one use case.';
-        return false;
-      }
-      const volume = section.querySelector('input[name="volume"]:checked');
-      if (!volume){
-        statusMsg.textContent = 'Please select a print volume.';
-        return false;
-      }
-    }
-    if (step === 3){
-      const turnTime = section.querySelector('input[name="turn_time"]:checked');
-      if (!turnTime){
-        statusMsg.textContent = 'Please select a requested turn time.';
         return false;
       }
     }
@@ -505,6 +534,11 @@
         payload[key] = value;
       }
     }
+    resolveOther(payload, 'volume', 'volume_other_text');
+    resolveOther(payload, 'turn_time', 'turn_time_other_text');
+    resolveOther(payload, 'handoff', 'handoff_other_text');
+    resolveOther(payload, 'proofing', 'proofing_other_text');
+
     payload.submitted_at = new Date().toISOString();
 
     fetch(SCRIPT_URL, {
