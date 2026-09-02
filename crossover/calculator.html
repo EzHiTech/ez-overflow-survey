@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Short-Run Cost Calculator, EZ Overflow</title>
+<style>
+  :root{
+    --navy:#0c2d55; --navy-deep:#081d38; --black:#0a0a0a;
+    --gold:#c9973f; --gold-light:#e0b566;
+    --ink:#1a1f29; --muted:#5b6472; --line:#e3e2dd;
+    --paper:#fbfaf7; --card:#ffffff; --radius:10px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);font-family:'Segoe UI',Roboto,-apple-system,sans-serif;color:var(--ink);line-height:1.55}
+  .wrap{max-width:820px;margin:0 auto;padding:0 0 4rem}
+
+  .brand-bar{background:var(--navy);text-align:center;padding:14px 20px}
+  .brand-bar span{color:#fff;font-size:20px;font-weight:700;letter-spacing:.03em}
+  .hero{background:var(--black);text-align:center;padding:28px 20px 32px}
+  .hero img{max-width:320px;width:80%;height:auto}
+  .tagline{background:var(--navy);text-align:center;padding:12px 20px}
+  .tagline span{color:#fff;font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+
+  .body{padding:34px 24px 0}
+  h1{font-size:30px;line-height:1.2;font-weight:700;color:var(--navy-deep);margin:0 0 14px;max-width:24ch}
+  .lede{font-size:17px;margin:0 0 10px;max-width:66ch}
+  .lede.sub{color:var(--muted);font-size:15.5px}
+  .pill{display:inline-block;background:var(--gold);color:var(--navy-deep);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:16px}
+
+  h2{font-size:15px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);margin:38px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+  .note{font-size:14px;color:var(--muted);margin:10px 0 16px;max-width:68ch}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;margin-bottom:6px}
+  .field label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .field small{display:block;font-weight:400;color:var(--muted);font-size:12.5px;margin-bottom:5px}
+  .field input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:15px;color:var(--ink);background:var(--card)}
+  .field input:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+
+  .toggle{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:18px 0 6px}
+  .toggle input{margin-top:3px;width:17px;height:17px;flex:none;accent-color:var(--navy)}
+  .toggle label{font-size:14px;cursor:pointer}
+  .toggle label b{display:block;font-size:14.5px;margin-bottom:2px}
+  .toggle label span{color:var(--muted);font-size:13px}
+
+  .result{background:var(--navy-deep);border-radius:var(--radius);padding:26px;margin-top:26px;color:#fff}
+  .result .lab{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-light);font-weight:700;margin-bottom:6px}
+  .result .big{font-size:42px;font-weight:700;line-height:1.05;color:#fff}
+  .result .big small{font-size:16px;font-weight:400;color:#c8d3e0}
+  .result .sub{font-size:14.5px;color:#d5dde8;margin-top:10px;max-width:58ch}
+  .result hr{border:0;border-top:1px solid #24405f;margin:20px 0}
+  .result .row{display:flex;justify-content:space-between;gap:16px;font-size:14.5px;padding:4px 0;color:#d5dde8}
+  .result .row b{color:#fff;font-weight:600}
+  .result .estnote{margin-top:16px;padding-top:14px;border-top:1px solid #24405f;font-size:13px;color:#a9bcd0;line-height:1.5}
+
+  .warn{background:#fff6e6;border:1px solid var(--gold);border-radius:var(--radius);padding:14px 16px;font-size:14px;margin-top:16px;color:var(--ink)}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:14.5px;margin-bottom:8px}
+  thead th{background:var(--navy);color:#fff;text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:10px 14px}
+  tbody td{padding:10px 14px;border-top:1px solid var(--line)}
+  tbody tr:nth-child(even){background:#fcfbf9}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  td.lbl{color:var(--muted)}
+  td.tot{font-weight:700;color:var(--navy-deep)}
+  tr.hi td{background:#fff6e6}
+  tr.tr-tot td{border-top:2px solid var(--navy);font-weight:700;color:var(--navy-deep)}
+
+  .cta{background:var(--navy-deep);border-radius:var(--radius);padding:28px 26px;margin-top:38px;color:#fff}
+  .cta h3{margin:0 0 8px;font-size:20px;color:#fff}
+  .cta p{margin:0 0 18px;font-size:15.5px;color:#d5dde8;max-width:60ch}
+  .cta a{display:inline-block;background:var(--gold);color:var(--navy-deep);font-weight:700;font-size:15px;text-decoration:none;padding:12px 26px;border-radius:7px}
+  .cta a:hover{background:var(--gold-light)}
+  .cta a:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+  .foot{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+  .foot a{color:var(--navy);font-weight:600}
+
+  @media (max-width:640px){
+    .body{padding:26px 16px 0}
+    h1{font-size:24px}
+    .grid{grid-template-columns:1fr}
+    .result .big{font-size:34px}
+    table{font-size:13.5px}
+    thead th,tbody td{padding:9px 10px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand-bar"><span>Short-Run Cost Calculator</span></div>
+  <div class="hero">
+    <img src="https://ezhitech.github.io/ez-overflow-survey/ez-overflow-logo.png" alt="EZ Overflow, B2B Printing Partner">
+  </div>
+  <div class="tagline"><span>Free, No Sign-In, Nothing Recorded</span></div>
+
+  <div class="body">
+
+    <span class="pill">Free Tool</span>
+    <h1>What does a short run actually cost on your press?</h1>
+    <p class="lede">Most shops carry a cost-per-piece figure in their head that leaves out makeready waste. On a short run, that waste is often the largest single line on the job.</p>
+    <p class="lede sub">Everything runs in your browser. Nothing is sent anywhere, nothing is saved, and we never see it. Finished pieces are 8.5&nbsp;×&nbsp;11.</p>
+    <div class="warn" style="margin-bottom:6px"><b>This is an estimate, and it only knows what you tell it.</b> Every field below is yours to change. The tool has no opinion about your shop, it's arithmetic on the numbers you enter, so if the answer looks wrong, an input is probably wrong. Your figures beat ours every time.</div>
+
+    <h2>The job</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="qty">Finished pieces</label>
+        <small>Good 8.5 × 11 pieces you need to deliver</small>
+        <input type="number" id="qty" value="500" min="1" step="1">
+      </div>
+      <div class="field">
+        <label for="up">Pieces per press sheet</label>
+        <small>Your imposition, how many 8.5 × 11 up</small>
+        <input type="number" id="up" value="8" min="1" step="1">
+      </div>
+    </div>
+
+    <h2>Your press</h2>
+    <p class="note">Every value below is a placeholder we picked so the page isn't blank. It's not a recommendation, and not a claim about your shop. Overwrite all of them with your own figures. The answer is only as good as what you put in.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="mrMin">Makeready time (minutes)</label>
+        <small>Plate hang, register, up to color</small>
+        <input type="number" id="mrMin" value="30" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="mrWaste">Makeready waste (press sheets)</label>
+        <small>Sheets pulled before you're selling them</small>
+        <input type="number" id="mrWaste" value="500" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="plates">Plates for this job</label>
+        <small>Usually 4 for process color</small>
+        <input type="number" id="plates" value="4" min="0" step="1">
+      </div>
+      <div class="field">
+        <label for="plateCost">Cost per plate ($)</label>
+        <small>Plate, chemistry, and output</small>
+        <input type="number" id="plateCost" value="15" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="paper">Paper cost per press sheet ($)</label>
+        <small>Your parent sheet, not the 8.5 × 11</small>
+        <input type="number" id="paper" value="0.09" min="0" step="0.001">
+      </div>
+      <div class="field">
+        <label for="speed">Running speed (press sheets/hour)</label>
+        <small>Realistic, not the rated maximum</small>
+        <input type="number" id="speed" value="8000" min="1" step="100">
+      </div>
+      <div class="field">
+        <label for="ink">Ink &amp; consumables (per 1,000 sheets, $)</label>
+        <small>Ink, fountain solution, blanket wash</small>
+        <input type="number" id="ink" value="8" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="labor">Press labor rate ($/hour)</label>
+        <small>Operator, loaded</small>
+        <input type="number" id="labor" value="65" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="oh">Press overhead ($/hour)</label>
+        <small>Lease or depreciation, maintenance, space. Enter 0 if the press is paid off and you treat it as free.</small>
+        <input type="number" id="oh" value="45" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="toggle">
+      <input type="checkbox" id="useLabor" checked>
+      <label for="useLabor">
+        <b>Include press labor in the cost</b>
+        <span>Leave this on if you quote with labor absorbed, most shops do. Turn it off to see the marginal cost of running a job on a press that's already staffed and sitting idle. Both are defensible; they give different answers.</span>
+      </label>
+    </div>
+
+    <h2>Digital comparison (optional)</h2>
+    <p class="note">Leave this blank to skip. If you know your digital cost per finished 8.5 × 11 piece, click charge plus paper, enter it and we'll find the run length where your press takes over.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="digital">Digital cost per finished piece ($)</label>
+        <small>Optional. Click plus paper, per 8.5 × 11</small>
+        <input type="number" id="digital" value="" min="0" step="0.001" placeholder="e.g. 0.14">
+      </div>
+    </div>
+
+    <div id="out"></div>
+
+    <h2>Cost per piece at other run lengths</h2>
+    <p class="note">Same press, same setup, different quantities, estimated from your inputs above. This is where the fixed cost of makeready shows itself.</p>
+    <div id="curve"></div>
+
+    <div class="cta">
+      <h3>Now compare it to ours</h3>
+      <p>If short runs are costing more than you thought, that's the work EZ Overflow is built for, press capacity for EZ partners: flat sheets shipped back, your bindery keeps the finishing. Tell us your typical run lengths and we'll come back with real pricing.</p>
+      <a href="https://ezhitech.github.io/ez-overflow-survey/">Take the Digital Output Survey</a>
+    </div>
+
+    <div class="foot">
+      <p><b>How this works.</b> Fixed cost is plates, makeready time, and the stock burned in makeready. Variable cost is paper, consumables, and run time for the good sheets. Press time is charged at labor plus overhead per hour. Press sheets are rounded up to the next whole sheet. Cost per piece is total cost divided by finished pieces. It's an estimate built entirely on your inputs, it can't know how your shop allocates overhead, so treat it as a starting point for a conversation, not a quote.</p>
+      <p>Free to use, nothing to sign up for. Please visit us at <a href="https://ezhitech.com/">EZHiTech.com</a>.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var ids = ['qty','up','mrMin','mrWaste','plates','plateCost','paper','speed','ink','labor','oh','digital'];
+  var out = document.getElementById('out');
+  var curve = document.getElementById('curve');
+
+  function num(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+  function money(v, d){ d = (d===undefined)?2:d;
+    return '$' + v.toLocaleString('en-US',{minimumFractionDigits:d, maximumFractionDigits:d}); }
+  function int(v){ return Math.round(v).toLocaleString('en-US'); }
+
+  // Returns the full cost model for a given finished-piece quantity.
+  function model(qty){
+    var up       = Math.max(1, num('up'));
+    var mrMin    = num('mrMin');
+    var mrWaste  = num('mrWaste');
+    var plates   = num('plates');
+    var plateC   = num('plateCost');
+    var paper    = num('paper');
+    var speed    = Math.max(1, num('speed'));
+    var ink      = num('ink');
+    var labor    = document.getElementById('useLabor').checked ? num('labor') : 0;
+    var oh       = num('oh');
+    var hourly   = labor + oh;   // full cost of an hour on this press
+
+    var goodSheets  = Math.ceil(qty / up);          // press sheets that carry sellable pieces
+    var totalSheets = goodSheets + mrWaste;
+
+    // Fixed: incurred once, regardless of run length
+    var plateCost = plates * plateC;
+    var mrLabor   = (mrMin / 60) * hourly;
+    var wastePaper= mrWaste * paper;
+    var wasteInk  = (mrWaste / 1000) * ink;
+    var fixed     = plateCost + mrLabor + wastePaper + wasteInk;
+
+    // Variable: scales with good sheets
+    var runPaper  = goodSheets * paper;
+    var runInk    = (goodSheets / 1000) * ink;
+    var runHours  = goodSheets / speed;
+    var runLabor  = runHours * hourly;
+    var variable  = runPaper + runInk + runLabor;
+
+    var total = fixed + variable;
+
+    return {
+      qty:qty, up:up, goodSheets:goodSheets, totalSheets:totalSheets,
+      plateCost:plateCost, mrLabor:mrLabor, wastePaper:wastePaper, wasteInk:wasteInk,
+      fixed:fixed, runPaper:runPaper, runInk:runInk, runLabor:runLabor,
+      variable:variable, total:total,
+      perPiece: qty > 0 ? total / qty : 0,
+      varPerSheet: paper + (ink/1000) + (hourly/speed),
+      varPerPiece: (paper + (ink/1000) + (hourly/speed)) / up,
+      hourly: hourly,
+      wasteShare: total > 0 ? (wastePaper + wasteInk) / total : 0,
+      runHours: runHours, mrMin: mrMin
+    };
+  }
+
+  function render(){
+    var qty = Math.max(1, Math.floor(num('qty')));
+    var m = model(qty);
+    var d  = num('digital');
+    var hasDigital = document.getElementById('digital').value !== '' && d > 0;
+
+    var html = '';
+
+    html += '<div class="result">';
+    html +=   '<div class="lab">Your cost per finished piece</div>';
+    html +=   '<div class="big">' + money(m.perPiece, 4) + ' <small>per 8.5 × 11</small></div>';
+    html +=   '<div class="sub">' + int(m.qty) + ' pieces, ' + int(m.goodSheets) + ' good press sheets plus ' +
+              int(m.totalSheets - m.goodSheets) + ' in makeready waste, ' + int(m.totalSheets) +
+              ' sheets of stock consumed for ' + int(m.qty) + ' sellable pieces.</div>';
+    html +=   '<hr>';
+    html +=   '<div class="row"><span>Total job cost</span><b>' + money(m.total) + '</b></div>';
+    html +=   '<div class="row"><span>Fixed (plates, makeready time, waste stock)</span><b>' + money(m.fixed) + '</b></div>';
+    html +=   '<div class="row"><span>Variable (paper, consumables, run time)</span><b>' + money(m.variable) + '</b></div>';
+    html +=   '<div class="estnote">Estimate, based on the inputs above. It can\'t know how your shop absorbs overhead, so your own costing wins any disagreement. If this doesn\'t match what you get on a real job, change the input that\'s off and it will.</div>';
+    html += '</div>';
+
+    if (m.wasteShare >= 0.15){
+      html += '<div class="warn"><b>Makeready waste is ' + (m.wasteShare*100).toFixed(0) +
+              '% of this job\'s cost.</b> You bought ' + int(m.totalSheets - m.goodSheets) +
+              ' sheets of stock, ' + money(m.wastePaper + m.wasteInk) +
+              ' worth, that never left the shop as product.</div>';
+    }
+
+    // Line-by-line breakdown
+    html += '<table><thead><tr><th>Line</th><th class="num">Cost</th><th class="num">Per piece</th></tr></thead><tbody>';
+    function row(label, val, hi){
+      html += '<tr' + (hi?' class="hi"':'') + '><td class="lbl">' + label + '</td><td class="num">' +
+              money(val) + '</td><td class="num">' + money(val/m.qty, 4) + '</td></tr>';
+    }
+    row('Plates (' + int(num('plates')) + ' × ' + money(num('plateCost')) + ')', m.plateCost);
+    row('Makeready time (' + int(m.mrMin) + ' min @ ' + money(m.hourly) + '/hr)', m.mrLabor);
+    row('Makeready waste, stock (' + int(m.totalSheets - m.goodSheets) + ' sheets)', m.wastePaper, true);
+    row('Makeready waste, ink &amp; consumables', m.wasteInk, true);
+    row('Run paper (' + int(m.goodSheets) + ' sheets)', m.runPaper);
+    row('Run ink &amp; consumables', m.runInk);
+    row('Run time (' + m.runHours.toFixed(2) + ' hr @ ' + money(m.hourly) + '/hr)', m.runLabor);
+    html += '<tr class="tr-tot"><td>Total</td><td class="num">' + money(m.total) +
+            '</td><td class="num">' + money(m.perPiece, 4) + '</td></tr>';
+    html += '</tbody></table>';
+
+    // Crossover
+    if (hasDigital){
+      var digitalTotal = d * m.qty;
+      html += '<h2 style="margin-top:34px">Against digital</h2>';
+      html += '<table><thead><tr><th>At ' + int(m.qty) + ' pieces</th><th class="num">Total</th><th class="num">Per piece</th></tr></thead><tbody>';
+      html += '<tr><td class="lbl">Your press</td><td class="num">' + money(m.total) + '</td><td class="num">' + money(m.perPiece,4) + '</td></tr>';
+      html += '<tr><td class="lbl">Digital</td><td class="num">' + money(digitalTotal) + '</td><td class="num">' + money(d,4) + '</td></tr>';
+      var diff = m.total - digitalTotal;
+      html += '<tr class="tr-tot"><td>' + (diff > 0 ? 'Digital is cheaper by' : 'Your press is cheaper by') +
+              '</td><td class="num">' + money(Math.abs(diff)) + '</td><td class="num">' +
+              money(Math.abs(diff)/m.qty,4) + '</td></tr>';
+      html += '</tbody></table>';
+
+      if (d <= m.varPerPiece){
+        html += '<div class="warn">At ' + money(d,4) + ' per piece, digital comes in at or below your press\'s ' +
+                'variable cost of ' + money(m.varPerPiece,4) + ' per piece. There is no crossover, digital is cheaper at every run length with these inputs. Worth double-checking both numbers.</div>';
+      } else {
+        var cross = m.fixed / (d - m.varPerPiece);
+        html += '<div class="result" style="margin-top:18px">';
+        html +=   '<div class="lab">Your crossover point</div>';
+        html +=   '<div class="big">' + int(Math.ceil(cross)) + ' <small>finished pieces</small></div>';
+        html +=   '<div class="sub">Above roughly ' + int(Math.ceil(cross)) +
+                  ' pieces, your press is the cheaper way to produce this job. Below it, digital is. ' +
+                  'The fixed cost of setup is ' + money(m.fixed) + ', and your press saves ' +
+                  money(d - m.varPerPiece, 4) + ' per piece once it\'s running.</div>';
+        html += '</div>';
+      }
+    }
+
+    out.innerHTML = html;
+
+    // Quantity curve
+    var qs = [100,250,500,1000,2500,5000,10000,25000];
+    var c = '<table><thead><tr><th class="num">Pieces</th><th class="num">Total cost</th><th class="num">Cost per piece</th>' +
+            (hasDigital ? '<th class="num">Digital per piece</th><th>Cheaper</th>' : '') + '</tr></thead><tbody>';
+    qs.forEach(function(q){
+      var mm = model(q);
+      var isNow = (q === qty);
+      c += '<tr' + (isNow ? ' class="hi"' : '') + '><td class="num">' + int(q) + '</td><td class="num">' +
+           money(mm.total) + '</td><td class="num' + (isNow?' tot':'') + '">' + money(mm.perPiece,4) + '</td>';
+      if (hasDigital){
+        c += '<td class="num">' + money(d,4) + '</td><td>' + (mm.perPiece <= d ? 'Your press' : 'Digital') + '</td>';
+      }
+      c += '</tr>';
+    });
+    c += '</tbody></table>';
+    curve.innerHTML = c;
+  }
+
+  ids.forEach(function(id){
+    document.getElementById(id).addEventListener('input', render);
+  });
+  document.getElementById('useLabor').addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>
