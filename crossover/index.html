@@ -40,8 +40,9 @@
   .body{ padding: 34px 24px 0; }
   h1{
     font-size: 30px; line-height:1.2; font-weight:700;
-    color: var(--navy-deep); margin: 0 0 14px; max-width: 22ch;
+    color: var(--navy-deep); margin: 0 0 14px;
   }
+  @media (min-width:560px){ h1{ white-space: nowrap; } }
   .lede{ font-size: 17px; color: var(--ink); margin: 0 0 10px; max-width: 66ch; }
   .lede.sub{ color: var(--muted); font-size: 15.5px; }
 
@@ -84,6 +85,18 @@
   .callout p{ margin: 0; font-size: 16px; max-width: 64ch; }
   .callout p + p{ margin-top: 10px; }
 
+  .callout-alt{
+    background: #eef3f9; border-color: #c9d8e8; border-left-color: var(--navy);
+  }
+  .btn-inline{
+    display:inline-block; background: var(--navy); color:#fff;
+    font-weight:700; font-size:16px; text-decoration:none;
+    padding:14px 30px; border-radius:8px; box-shadow:0 3px 0 #061729;
+    margin-top:16px;
+  }
+  .btn-inline:hover{ background: var(--navy-deep); }
+  .btn-inline:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
   .cta{
     background: var(--navy-deep); border-radius: var(--radius);
     padding: 28px 26px; margin-top: 38px; color:#fff;
@@ -92,10 +105,15 @@
   .cta p{ margin: 0 0 18px; font-size: 15.5px; color: #d5dde8; max-width: 60ch; }
   .cta a{
     display:inline-block; background: var(--gold); color: var(--navy-deep);
-    font-weight:700; font-size: 15px; text-decoration:none;
-    padding: 12px 26px; border-radius: 7px;
+    font-weight:700; font-size: 17px; letter-spacing:.02em; text-decoration:none;
+    padding: 16px 34px; border-radius: 8px; box-shadow: 0 3px 0 #a87d2f;
   }
-  .cta a:hover{ background: var(--gold-light); }
+  .cta a:hover{ background: var(--gold-light); box-shadow: 0 3px 0 var(--gold); }
+  .cta a.alt{
+    background: transparent; color:#fff; border:2px solid var(--gold);
+    font-size:15px; padding:14px 28px; margin-left:12px; box-shadow:none;
+  }
+  .cta a.alt:hover{ background: var(--gold); color: var(--navy-deep); box-shadow:none; }
   .cta a:focus-visible{ outline: 3px solid #fff; outline-offset: 2px; }
 
   .sources{ margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); }
@@ -126,7 +144,7 @@
 
   <div class="brand-bar"><span>Digital Output Survey</span></div>
   <div class="hero">
-    <img src="https://ezhitech.github.io/ez-overflow-survey/ez-overflow-logo.png" alt="EZ Overflow, B2B Printing Partner">
+    <img src="/ez-overflow-logo.png" alt="EZ Overflow, B2B Printing Partner">
   </div>
   <div class="tagline"><span>Trade Only, Exclusive for EZ Partners</span></div>
 
@@ -169,64 +187,71 @@
     </table>
 
     <h2>Why the number moved</h2>
+    <p class="note">Keypoint Intelligence attributes the shift to two forces moving in opposite directions.</p>
+
     <table>
       <thead>
-        <tr><th style="width:26%">What changed</th><th>Direction</th><th style="width:16%">Source</th></tr>
+        <tr><th style="width:30%">What changed</th><th>Direction</th><th style="width:14%">Source</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td class="press">Paper</td>
-          <td><span class="fig">+23%</span> average cost increase since the pandemic. Makeready waste is now more expensive per job.</td>
-          <td class="ref">2</td>
-        </tr>
-        <tr>
-          <td class="press">Plates</td>
-          <td><span class="fig">+30%</span> average cost increase over the same period.</td>
-          <td class="ref">2</td>
-        </tr>
-        <tr>
-          <td class="press">Digital cost of ownership</td>
-          <td>Total cost of ownership for large-production digital equipment has dropped <span class="fig">by more than half</span> over the past decade, while running larger monthly volumes.</td>
+          <td class="press">Offset input costs</td>
+          <td>Expenses tied to makereadies, paper waste, and plates have all risen significantly.</td>
           <td class="ref">1</td>
         </tr>
         <tr>
-          <td class="press">What that costs on a short run</td>
-          <td>An older press burning 500 makeready sheets to produce a 500-piece job uses <span class="fig">two sheets of stock for every good one</span> at today's paper prices. Check it against your last short run.</td>
+          <td class="press">Digital cost of ownership</td>
+          <td>Total cost of ownership for large-production digital has fallen <span class="fig">by more than half</span> over the past decade, while running far larger monthly volumes than presses from ten years ago.</td>
+          <td class="ref">1</td>
+        </tr>
+        <tr>
+          <td class="press">Plate tariffs</td>
+          <td>Proposed duties on aluminum lithographic plates would push offset costs higher still. The Print &amp; Graphic Communications Association, which represents close to 400 print businesses across New York, New Jersey, and Pennsylvania, has warned the added cost would reach printers and the customers they serve.</td>
           <td class="ref">2</td>
+        </tr>
+        <tr>
+          <td class="press">Run lengths</td>
+          <td>In an early-2026 survey of print buyers, <span class="fig">47%</span> expect their typical run length per job to shrink over the next three years, and 30% have already cut back on orders because of rising costs.</td>
+          <td class="ref">3</td>
         </tr>
       </tbody>
     </table>
 
-    <h2>Where the crossover sits today</h2>
-    <p class="note">The run length at which offset becomes the cheaper option, modeled against a current B2 digital press. The better and busier the offset press, the shorter the run it wins.</p>
+    <h2>What that does to the crossover</h2>
+    <p class="note">Keypoint ran B2 offset against digital using market-average production costs, press speeds, shift patterns, utilization rates, and monthly volumes. The result is blunter than a number.</p>
 
     <table>
       <thead>
-        <tr><th style="width:38%">Offset press profile</th><th>Crossover point</th><th style="width:16%">Source</th></tr>
+        <tr><th style="width:34%">Press</th><th>Where it wins on cost</th><th style="width:14%">Source</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td class="press">New B1 perfector<small>24/7 operation, 5-minute makeready</small></td>
-          <td><span class="fig">~4,000 A4</span></td>
-          <td class="ref">2</td>
+          <td class="press">B2 offset</td>
+          <td>Doesn't appear in the crossover calculation at all. Both B2 digital and newer B1 offset come in cheaper from the smallest runs to the largest.</td>
+          <td class="ref">4</td>
         </tr>
         <tr>
-          <td class="press">B2 sheetfed, average<small>10 shifts/week, 12-minute makeready</small></td>
-          <td><span class="fig">~10,000 A4</span></td>
-          <td class="ref">2</td>
+          <td class="press">Newer B1 offset</td>
+          <td>Takes over above roughly 7,500 A4 color impressions.</td>
+          <td class="ref">4</td>
         </tr>
         <tr>
-          <td class="press">Older, lower-production B2<small>7.5 shifts/week, 30-minute makeready, 500 sheets waste</small></td>
-          <td><span class="fig">~12,000+ A4</span></td>
-          <td class="ref">2</td>
+          <td class="press">Older, amortized B1 offset<small>Longer makereadies, more paper waste</small></td>
+          <td>Some lower-volume examples are candidates to move to B2 digital or B3 inkjet on crossover grounds, even with the press paid off.</td>
+          <td class="ref">4</td>
         </tr>
       </tbody>
     </table>
 
-    <div class="callout">
-      <p>Your long runs still belong on your press. That math hasn't changed, and nobody is suggesting you replace equipment that's paid for and running well.</p>
-      <p>The question is the work below your crossover point: the short runs, the versioned jobs, the rush reprints that eat a full makeready to produce a few hundred sheets. That's the work EZ Overflow is built to absorb.</p>
-      <p>And if that work grows to the point where it belongs on your own floor, we'll tell you. We track the volume with you, and we'd rather be the ones who say when you've outgrown sending it out.</p>
+    <p class="note">Keypoint also notes that smaller and mid-size offset shops are increasingly unwilling to fight price wars against larger B1 providers, and are redirecting toward digital work instead.</p>
+
+    <h2>What that costs on a short run</h2>
+    <p class="note">This part is just arithmetic, and you can check it against your own last job.</p>
+
+    <div class="callout callout-alt">
+      <p>A press burning 500 makeready sheets to produce a 500-piece job consumes <b>two sheets of stock for every good one</b>. Since you supply your own paper either way, that waste is money you already spent.</p>
+      <p>Our calculator works out your real cost per piece with the waste counted in, using your figures rather than ours. It runs in your browser, nothing is recorded, and there's nothing to sign up for.</p>
+      <a class="btn-inline" href="calculator.html">Work out your real cost per piece</a>
     </div>
 
     <h2>What we take, and what stays with you</h2>
@@ -286,14 +311,16 @@
     <div class="cta">
       <h3>Find out where your line falls</h3>
       <p>This works best for shops that already have finishing in house and are missing digital press capacity for short runs. Tell us your typical run lengths, turn times, and finishing needs, and we'll come back with pricing and a straight answer on which of your jobs make sense to send our way, and which ones don't.</p>
-      <a href="https://ezhitech.github.io/ez-overflow-survey/">Take the Digital Output Survey</a>
+      <a href="https://ezhitech.github.io/ez-overflow-survey/">Take the Digital Output Survey</a><a class="alt" href="calculator.html">Run the numbers first</a>
     </div>
 
     <div class="sources">
       <h4>Sources</h4>
       <ol>
-        <li>Sacristan, German. "Transitioning Print Volumes from Offset to Digital Printing." Keypoint Intelligence, December 2, 2024. <a href="https://keypointintelligence.com/keypoint-blogs/transitioning-print-volumes-from-offset-to-digital-printing">keypointintelligence.com/keypoint-blogs/transitioning-print-volumes-from-offset-to-digital-printing</a></li>
-        <li>Sacristan, German. "The cost crossover point between offset and digital." Keypoint Intelligence analysis. Figures modeled using the Keypoint Intelligence Cost and Time Cross Over Point Estimator. <em>Permission to reproduce pending, confirm with Keypoint before publication.</em></li>
+        <li>Sacristan, German. "Transitioning Print Volumes from Offset to Digital Printing." Keypoint Intelligence, December 2, 2024. <a href="https://keypointintelligence.com/keypoint-blogs/transitioning-print-volumes-from-offset-to-digital-printing">keypointintelligence.com</a> (crossover-awareness figures are from Keypoint's 2024 Color Embellishments survey)</li>
+        <li>"ITC Proposes Tariffs on Aluminum Lithographic Printing Plates." Keypoint Intelligence. <a href="https://keypointintelligence.com/keypoint-blogs/itc-proposes-tariffs-on-aluminum-lithographic-printing-plates">keypointintelligence.com</a></li>
+        <li>"Rising Print Cost Pressures: What They Mean for You." Keypoint Intelligence, 2026. <a href="https://keypointintelligence.com/news/rising-print-cost-pressures-what-they-mean-for-you">keypointintelligence.com</a></li>
+        <li>Sacristan, German. "The Future of B2 Offset Printing." Keypoint Intelligence, January 10, 2024. <a href="https://keypointintelligence.com/keypoint-blogs/the-future-of-b2-offset-printing">keypointintelligence.com</a></li>
       </ol>
     </div>
 
