@@ -71,6 +71,7 @@
   }
   tbody td{ padding: 14px 16px; border-top: 1px solid var(--line); vertical-align: top; }
   tbody tr:nth-child(even){ background: #fcfbf9; }
+  td.num, th.num{ text-align: right; font-variant-numeric: tabular-nums; }
   .fig{ font-weight:700; color: var(--navy-deep); white-space: nowrap; font-size: 16px; }
   .fig-lg{ font-size: 19px; }
   td.press{ font-weight:600; color: var(--ink); }
@@ -217,33 +218,42 @@
       </tbody>
     </table>
 
-    <h2>What that does to the crossover</h2>
-    <p class="note">Keypoint ran B2 offset against digital using market-average production costs, press speeds, shift patterns, utilization rates, and monthly volumes. The result is blunter than a number.</p>
+    <h2>There is no single crossover number</h2>
+    <p class="note">Keypoint's group director for production printing demonstrated their estimator on four different shop profiles. Same tool, same market-average data underneath, four very different answers.</p>
 
     <table>
       <thead>
-        <tr><th style="width:34%">Press</th><th>Where it wins on cost</th><th style="width:14%">Source</th></tr>
+        <tr><th style="width:52%">Shop profile</th><th class="num">Crossover</th><th style="width:14%">Source</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td class="press">B2 offset</td>
-          <td>Doesn't appear in the crossover calculation at all. Both B2 digital and newer B1 offset come in cheaper from the smallest runs to the largest.</td>
-          <td class="ref">4</td>
+          <td class="press">Market average<small>B2 offset against B2 digital</small></td>
+          <td><span class="fig">~10,000</span></td>
+          <td class="ref">5</td>
         </tr>
         <tr>
-          <td class="press">Newer B1 offset</td>
-          <td>Takes over above roughly 7,500 A4 color impressions.</td>
-          <td class="ref">4</td>
+          <td class="press">High-production offset shop<small>21 shifts a week, 5-minute makeready, 200 sheets waste</small></td>
+          <td><span class="fig">~5,000</span></td>
+          <td class="ref">5</td>
         </tr>
         <tr>
-          <td class="press">Older, amortized B1 offset<small>Longer makereadies, more paper waste</small></td>
-          <td>Some lower-volume examples are candidates to move to B2 digital or B3 inkjet on crossover grounds, even with the press paid off.</td>
-          <td class="ref">4</td>
+          <td class="press">Same shop, but with only a small toner device<small>Around 100,000 A3 a month</small></td>
+          <td><span class="fig">~800</span></td>
+          <td class="ref">5</td>
+        </tr>
+        <tr>
+          <td class="press">Older offset press, mainly a digital shop<small>30-minute makeready, 600 sheets waste, high-production B2 digital</small></td>
+          <td><span class="fig">~18,000</span></td>
+          <td class="ref">5</td>
         </tr>
       </tbody>
     </table>
 
-    <p class="note">Keypoint also notes that smaller and mid-size offset shops are increasingly unwilling to fight price wars against larger B1 providers, and are redirecting toward digital work instead.</p>
+    <p class="note">A twentyfold spread, and Keypoint expects printers to push back on the average figure and insist theirs is closer to 1,500. The pattern that matters is the direction: the slower your makeready and the heavier your waste, the further up the crossover moves, and the more of your work sits below it.</p>
+
+    <p class="note">Two things their estimator leaves out, both of which move the line further toward digital. Finishing isn't counted at all, and Keypoint notes that including it would favor digital further on bound work, where offset needs collation steps digital doesn't. Paper isn't counted either, apart from offset makeready waste.</p>
+
+    <p class="note">Keypoint also reports that smaller and mid-size offset shops are increasingly unwilling to fight price wars against larger B1 providers, and are moving toward digital and higher-value work instead. Separately, the concern they hear most often from printers is skilled offset labor: operators retiring, with fewer people training to replace them.</p>
 
     <h2>What that costs on a short run</h2>
     <p class="note">This part is just arithmetic, and you can check it against your own last job.</p>
@@ -263,8 +273,12 @@
       </thead>
       <tbody>
         <tr>
-          <td class="press">Printing<small>Up to 13" × 19", single or double sided</small></td>
-          <td>We run it. Full color CMYK, black and white, or CMYK plus specialty.</td>
+          <td class="press">Printing<small>Full color CMYK, black and white, or CMYK plus specialty</small></td>
+          <td>We run it, single or double sided.</td>
+        </tr>
+        <tr>
+          <td class="press">Sheet size<small>13" &times; 19" maximum</small></td>
+          <td>Worth checking first if you run a 20" press. A layout imposed for your sheet may need re-imposing for ours, and oversized work won't fit at all. Send us a typical job and we'll tell you straight away whether it works.</td>
         </tr>
         <tr>
           <td class="press">Flat sheets<small>Our default</small></td>
@@ -321,6 +335,7 @@
         <li>"ITC Proposes Tariffs on Aluminum Lithographic Printing Plates." Keypoint Intelligence. <a href="https://keypointintelligence.com/keypoint-blogs/itc-proposes-tariffs-on-aluminum-lithographic-printing-plates">keypointintelligence.com</a></li>
         <li>"Rising Print Cost Pressures: What They Mean for You." Keypoint Intelligence, 2026. <a href="https://keypointintelligence.com/news/rising-print-cost-pressures-what-they-mean-for-you">keypointintelligence.com</a></li>
         <li>Sacristan, German. "The Future of B2 Offset Printing." Keypoint Intelligence, January 10, 2024. <a href="https://keypointintelligence.com/keypoint-blogs/the-future-of-b2-offset-printing">keypointintelligence.com</a></li>
+        <li>Sacristan, German, with Kyle Jordan (British Printing Industries Federation). "Do You Know Where Your Cross Over Point Is Between Offset and Digital?" Keypoint Intelligence video demonstration of the Cost and Time Cross Over Point Estimator. <a href="https://keypointintelligence.com/keypoint-blogs/video-do-you-know-your-cost-cross-over-points-for-offset-and-digital-printing">keypointintelligence.com</a></li>
       </ol>
     </div>
 
