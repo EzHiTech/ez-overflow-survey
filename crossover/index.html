@@ -19,6 +19,8 @@
     --radius: 10px;
   }
   *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  #cost-tool{ scroll-margin-top: 24px; }
   body{
     margin:0;
     background: var(--paper);
@@ -98,14 +100,95 @@
   .btn-inline:hover{ background: var(--navy-deep); }
   .btn-inline:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
 
+  /* shared affordances so buttons read as controls, not labels */
+  .topstrip a, .cta a, .btn-inline{
+    cursor:pointer; position:relative;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .topstrip a:hover, .cta a:hover, .btn-inline:hover{
+    transform: translateY(-2px);
+  }
+  .topstrip a:active, .cta a:active, .btn-inline:active{
+    transform: translateY(3px); box-shadow:0 0 0 rgba(0,0,0,0);
+  }
+  .arrow{ display:inline-block; margin-left:10px; transition: transform .15s ease; }
+  a:hover .arrow{ transform: translateX(4px); }
+  a.toolblock:hover .arrow{ transform: translateX(4px); }
+
+  /* top strip, above the fold */
+  .topstrip{
+    display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;
+    background:#fff6e6; border:3px solid var(--gold);
+    border-radius:12px; padding:16px 20px; margin:20px 0 6px;
+  }
+  .topstrip p{ margin:0; font-size:14.5px; line-height:1.4; flex:1 1 280px; text-align:center; }
+  .topstrip a{
+    flex:none; display:inline-block; background:var(--navy); color:#fff;
+    font-weight:700; font-size:16px; text-decoration:none; text-align:center;
+    padding:12px 26px; border-radius:8px; box-shadow:0 3px 0 #061729;
+  }
+  @media (max-width:560px){
+    .topstrip{ flex-direction:column; text-align:center; }
+    .topstrip a{ width:100%; }
+  }
+  .topstrip a:hover{ background:var(--navy-deep); }
+  .topstrip a:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+  /* mid-page dark panel: the whole block is the link */
+  a.toolblock{
+    display:block; text-decoration:none; cursor:pointer;
+    background:var(--navy-deep); border:2px solid transparent; border-radius:var(--radius);
+    padding:30px 28px 32px; margin:30px 0; color:#fff;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  a.toolblock:hover{
+    border-color:var(--gold);
+    box-shadow:0 8px 22px rgba(8,29,56,.28);
+    transform: translateY(-2px);
+  }
+  a.toolblock:focus-visible{ outline:3px solid var(--gold); outline-offset:3px; }
+  a.toolblock .eyebrow{
+    display:block; font-size:11.5px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--gold-light); margin-bottom:10px;
+  }
+  a.toolblock .tb-h{
+    display:block; font-size:26px; line-height:1.25; font-weight:700; color:#fff; margin-bottom:14px;
+  }
+  a.toolblock .tb-p{
+    display:block; font-size:16px; color:#d5dde8; max-width:62ch; margin-bottom:12px;
+  }
+  a.toolblock .tb-p b{ color:#fff; }
+  a.toolblock .tb-btn{
+    display:block; width:fit-content; margin:16px auto 0;
+    background:var(--gold); color:var(--navy-deep);
+    font-weight:700; font-size:16px; padding:12px 30px; border-radius:8px;
+    border-top:1px solid #e8c98d;
+    box-shadow:0 4px 0 #a87d2f, 0 6px 14px rgba(0,0,0,.28);
+    transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  a.toolblock:hover .tb-btn{
+    background:var(--gold-light);
+    box-shadow:0 4px 0 var(--gold), 0 8px 18px rgba(0,0,0,.32);
+  }
+  a.toolblock:active{ transform: translateY(1px); }
+  a.toolblock:active .tb-btn{ transform: translateY(3px); box-shadow:0 0 0 rgba(0,0,0,0); }
+  a.toolblock .tb-fine{
+    display:block; font-size:13.5px; color:#8fa6bf; margin-top:14px; text-align:center;
+  }
+
   .cta{
     background: var(--navy-deep); border-radius: var(--radius);
-    padding: 28px 26px; margin-top: 38px; color:#fff;
+    padding: 30px 28px 32px; margin-top: 38px; color:#fff;
   }
-  .cta h3{ margin:0 0 8px; font-size: 20px; font-weight:700; color:#fff; }
-  .cta p{ margin: 0 0 18px; font-size: 15.5px; color: #d5dde8; max-width: 60ch; }
+  .cta .eyebrow{
+    font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color: var(--gold-light); margin-bottom:10px;
+  }
+  .cta h3{ margin:0 0 14px; font-size: 26px; line-height:1.25; font-weight:700; color:#fff; }
+  .cta p{ margin: 0 0 20px; font-size: 16px; color: #d5dde8; max-width: 62ch; }
   .cta a{
-    display:inline-block; background: var(--gold); color: var(--navy-deep);
+    display:block; width:fit-content; margin:0 auto;
+    background: var(--gold); color: var(--navy-deep);
     font-weight:700; font-size: 17px; letter-spacing:.02em; text-decoration:none;
     padding: 16px 34px; border-radius: 8px; box-shadow: 0 3px 0 #a87d2f;
   }
@@ -155,6 +238,11 @@
     <h1>Do you know your crossover point?</h1>
     <p class="lede">The run length where offset stops being the cheaper way to produce a job has moved a long way in the last decade. Most shops haven't recalculated it.</p>
     <p class="lede sub">Here's what the research says, and where it came from.</p>
+
+    <div class="topstrip">
+      <p><b>Want your own number instead of the industry average?</b><br>Free calculator, no sign-up, nothing recorded.</p>
+      <a href="#cost-tool">Take me to the calculator<span class="arrow">&darr;</span></a>
+    </div>
 
     <h2>What printers know about their own numbers</h2>
     <p class="note">Keypoint Intelligence's 2024 Color Embellishments survey asked print service providers whether they calculate the cost crossover point between offset and digital.</p>
@@ -258,11 +346,14 @@
     <h2>What that costs on a short run</h2>
     <p class="note">This part is just arithmetic, and you can check it against your own last job.</p>
 
-    <div class="callout callout-alt">
-      <p>A press burning 500 makeready sheets to produce a 500-piece job consumes <b>two sheets of stock for every good one</b>. Since you supply your own paper either way, that waste is money you already spent.</p>
-      <p>Our calculator works out your real cost per piece with the waste counted in, using your figures rather than ours. It runs in your browser, nothing is recorded, and there's nothing to sign up for.</p>
-      <a class="btn-inline" href="calculator.html">Work out your real cost per piece</a>
-    </div>
+    <a class="toolblock" id="cost-tool" href="calculator.html">
+      <span class="eyebrow">Free tool</span>
+      <span class="tb-h">A press burning 500 makeready sheets for a 500-piece job buys paper twice.</span>
+      <span class="tb-p">Since you supply your own stock either way, <b>that waste is money already spent</b> before the first good sheet comes off. Most shops carry a cost-per-piece figure in their head that leaves it out.</span>
+      <span class="tb-p">Ours puts it back in, using your plate cost, your makeready, your paper, your labor. Not ours.</span>
+      <span class="tb-btn">Show me my real cost per piece<span class="arrow">&rarr;</span></span>
+      <span class="tb-fine">Runs entirely in your browser. Nothing is sent anywhere, nothing is recorded, and there is nothing to sign up for.</span>
+    </a>
 
     <h2>What we take, and what stays with you</h2>
     <p class="note">EZ Overflow is press capacity, not a full-service trade printer. Read this before you send anything. It's the fastest way to know whether we're a fit.</p>
@@ -323,9 +414,10 @@
     </div>
 
     <div class="cta">
+      <div class="eyebrow">Next step</div>
       <h3>Find out where your line falls</h3>
       <p>This works best for shops that already have finishing in house and are missing digital press capacity for short runs. Tell us your typical run lengths, turn times, and finishing needs, and we'll come back with pricing and a straight answer on which of your jobs make sense to send our way, and which ones don't.</p>
-      <a href="https://ezhitech.github.io/ez-overflow-survey/">Take the Digital Output Survey</a><a class="alt" href="calculator.html">Run the numbers first</a>
+      <a href="https://ezhitech.github.io/ez-overflow-survey/">Take the Digital Output Survey<span class="arrow">&rarr;</span></a>
     </div>
 
     <div class="sources">
@@ -335,7 +427,7 @@
         <li>"ITC Proposes Tariffs on Aluminum Lithographic Printing Plates." Keypoint Intelligence. <a href="https://keypointintelligence.com/keypoint-blogs/itc-proposes-tariffs-on-aluminum-lithographic-printing-plates">keypointintelligence.com</a></li>
         <li>"Rising Print Cost Pressures: What They Mean for You." Keypoint Intelligence, 2026. <a href="https://keypointintelligence.com/news/rising-print-cost-pressures-what-they-mean-for-you">keypointintelligence.com</a></li>
         <li>Sacristan, German. "The Future of B2 Offset Printing." Keypoint Intelligence, January 10, 2024. <a href="https://keypointintelligence.com/keypoint-blogs/the-future-of-b2-offset-printing">keypointintelligence.com</a></li>
-        <li>Sacristan, German, with Kyle Jordan (British Printing Industries Federation). "Do You Know Where Your Cross Over Point Is Between Offset and Digital?" Keypoint Intelligence video demonstration of the Cost and Time Cross Over Point Estimator. <a href="https://keypointintelligence.com/keypoint-blogs/video-do-you-know-your-cost-cross-over-points-for-offset-and-digital-printing">keypointintelligence.com</a></li>
+        <li>Sacristan, German, with Kyle Jordan (British Printing Industries Federation). "Do You Know Your Cost Cross Over Points for Offset and Digital Printing?" Keypoint Intelligence video demonstration of the Cost and Time Cross Over Point Estimator. <a href="https://keypointintelligence.com/keypoint-blogs/video-do-you-know-your-cost-cross-over-points-for-offset-and-digital-printing">keypointintelligence.com</a> &middot; video at <a href="https://www.youtube.com/watch?v=W4VxFM8JUTc">youtube.com/watch?v=W4VxFM8JUTc</a> (crossover figures at 5:43, 9:13, 10:24, and 12:55)</li>
       </ol>
     </div>
 
