@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EZ Overflow Survey — EZ Hi-Tech Partners</title>
+<title>Print Request — EZ Overflow</title>
 <style>
   :root{
     --navy: #0c2d55;
     --navy-deep: #081d38;
-    --black: #0a0a0a;
     --gold: #c9973f;
     --gold-light: #e0b566;
     --ink: #1a1f29;
@@ -16,6 +15,7 @@
     --line: #e3e2dd;
     --paper: #fbfaf7;
     --card: #ffffff;
+    --black: #0a0a0a;
     --radius: 10px;
   }
   *{ box-sizing: border-box; }
@@ -25,561 +25,892 @@
     font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
     color: var(--ink);
   }
-  .wrap{
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 0 4rem;
+  .wrap{ max-width: 680px; margin: 0 auto; padding: 0 0 4rem; }
+
+  /* ---- Header, matching the survey site ---- */
+  .brand-bar{ background: var(--navy); text-align:center; padding: 14px 20px; }
+  .brand-bar span{ color:#fff; font-size: 20px; font-weight: 700; letter-spacing: 0.03em; }
+  .hero{ background: var(--black); text-align:center; padding: 28px 20px 32px; }
+  .hero img{ max-width: 320px; width: 80%; height: auto; }
+  .tagline{ background: var(--navy); text-align:center; padding: 12px 20px 16px; }
+  .tagline p{ margin:0; color:#fff; font-size: 14px; font-weight:600; letter-spacing:0.02em; }
+  .tagline p.sub{ font-weight: 400; opacity: 0.85; font-size: 13px; margin-top: 4px; }
+
+  /* ---- Footer ---- */
+  .site-footer{
+    background: var(--navy-deep); color: #fff;
+    padding: 32px 24px; margin-top: 30px; font-size: 13px; line-height: 1.85;
+  }
+  .footer-inner{
+    max-width: 560px; margin: 0 auto;
+    display: grid; grid-template-columns: auto 1px 1fr;
+    gap: 28px; align-items: center;
+  }
+  @media (max-width: 560px){
+    .footer-inner{ grid-template-columns: 1fr; text-align: center; gap: 18px; }
+    .footer-divider-v{ display:none; }
+  }
+  .footer-divider-v{ background: rgba(255,255,255,0.18); height: 100%; min-height: 90px; }
+  .site-footer .footer-logo-wrap{
+    background: #fbfaf7; display:inline-block; padding: 10px 18px;
+    border-radius: 8px;
+  }
+  .site-footer .footer-logo{ max-width: 170px; width: 100%; height: auto; display:block; }
+  .footer-contact .footer-name{
+    color: var(--gold-light); font-weight: 700; font-size: 15px;
+    letter-spacing: 0.03em; margin-bottom: 8px; text-transform: uppercase;
+  }
+  .site-footer a{ color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.35); }
+  .site-footer a:hover{ border-bottom-color: var(--gold-light); }
+
+  /* ---- Section pill ---- */
+  .pill{
+    display:inline-block; background: var(--navy); color:#fff;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 6px 18px; border-radius: 999px; margin-bottom: 18px;
   }
 
-  /* ---- Header ---- */
-  .brand-bar{
-    background: var(--navy);
-    text-align:center;
-    padding: 14px 20px;
-  }
-  .brand-bar span{
-    color:#fff;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-  }
-  .hero{
-    background: var(--black);
-    text-align:center;
-    padding: 28px 20px 32px;
-  }
-  .hero img{
-    max-width: 320px;
-    width: 80%;
-    height: auto;
-  }
-  .tagline{
-    background: var(--navy);
-    text-align:center;
-    padding: 12px 20px;
-  }
-  .tagline p{
-    margin:0;
-    color:#fff;
-    font-size: 14px;
-    font-weight:600;
-    letter-spacing:0.02em;
-  }
-  .tagline p.sub{
-    font-weight: 400;
-    opacity: 0.85;
-    font-size: 13px;
-    margin-top: 2px;
-  }
-
-  /* ---- Progress ---- */
-  .progress-track{
-    display:flex;
-    justify-content:center;
-    gap: 8px;
-    padding: 22px 20px 4px;
-  }
-  .progress-step{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .progress-dot{
-    width: 22px; height:22px;
-    border-radius:50%;
-    border: 1.5px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    font-size: 11px;
-    color: var(--muted);
-    background:#fff;
-  }
-  .progress-step.active .progress-dot{
-    background: var(--navy);
-    border-color: var(--navy);
-    color:#fff;
-  }
-  .progress-step.done .progress-dot{
-    background: var(--gold);
-    border-color: var(--gold);
-    color:#fff;
-  }
-  .progress-line{
-    width: 30px; height:1.5px; background: var(--line);
-  }
-
-  /* ---- Card sections ---- */
   form{ padding: 8px 20px 0; }
+
   .section{
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 28px 24px 22px;
-    margin-top: 22px;
-    display:none;
-  }
-  .section.active{ display:block; }
-
-  .pill{
-    display:inline-block;
-    background: var(--navy);
-    color:#fff;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 6px 18px;
-    border-radius: 999px;
-    margin-bottom: 20px;
+    padding: 26px 24px 22px;
+    margin-top: 20px;
   }
 
-  .field{ margin-bottom: 18px; }
+  .field{ margin-bottom: 16px; }
   .field label{
-    display:block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 6px;
+    display:block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px;
   }
   .field label .req{ color: var(--gold); margin-left:2px; }
-  .field .hint{
-    font-size: 12px;
-    color: var(--muted);
-    margin: -2px 0 6px;
-  }
-  input[type="text"], input[type="email"], input[type="tel"], textarea, select{
-    width:100%;
-    padding: 10px 12px;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--ink);
-    background: #fff;
+  .hint{ font-size: 12px; color: var(--muted); margin-bottom: 6px; margin-top: -2px; }
+
+  input[type="text"], input[type="email"], input[type="tel"], input[type="number"],
+  input[type="date"], input[type="password"], textarea, select{
+    width:100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px;
+    font-size: 14px; font-family: inherit; color: var(--ink); background: #fff;
   }
   input:focus, textarea:focus, select:focus{
-    outline: none;
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(12,45,85,0.1);
+    outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(12,45,85,0.1);
   }
-  textarea{ resize: vertical; min-height: 70px; }
+  textarea{ resize: vertical; min-height: 60px; }
 
-  .row-2{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 480px){
-    .row-2{ grid-template-columns: 1fr; }
-  }
+  /* two-column rows, matching the survey site, collapsing under 480px */
+  .row-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px){ .row-2{ grid-template-columns: 1fr; } }
 
   .choice-group{ display:flex; flex-direction:column; gap:9px; }
-  .choice-group.grid-2{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-  }
-  @media (max-width: 480px){
-    .choice-group.grid-2{ grid-template-columns: 1fr; }
-  }
-  .choice{
-    display:flex;
-    align-items:flex-start;
-    gap: 9px;
-    font-size: 14px;
-    color: var(--ink);
-    cursor:pointer;
-  }
-  .choice input{
-    margin-top: 3px;
-    accent-color: var(--navy);
-    width:15px; height:15px;
-    flex-shrink:0;
-  }
-
-  .other-input{
-    display:none;
-    margin-top: 8px;
-    margin-left: 24px;
-    max-width: calc(100% - 24px);
-  }
-  .other-input.show{ display:block; }
+  .choice-group.grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  @media (max-width: 480px){ .choice-group.grid-2{ grid-template-columns: 1fr; } }
+  .choice{ display:flex; align-items:flex-start; gap: 9px; font-size: 14px; color: var(--ink); cursor:pointer; }
+  .choice input{ margin-top: 3px; accent-color: var(--navy); width:15px; height:15px; flex-shrink:0; }
 
   .boundary-note{
-    background: #f4f6f8;
-    border-left: 3px solid var(--navy);
-    border-radius: 0 6px 6px 0;
-    padding: 12px 14px;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 18px;
+    background: #f4f6f8; border-left: 3px solid var(--navy); border-radius: 0 6px 6px 0;
+    padding: 12px 14px; font-size: 13px; color: var(--muted); line-height: 1.6; margin: 10px 0 18px;
   }
+  .boundary-note.gold{ border-left-color: var(--gold); }
 
-  /* ---- Nav buttons ---- */
-  .nav-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top: 24px;
-    padding: 0 20px;
-  }
+  .hidden{ display:none; }
+
   .btn{
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 11px 26px;
-    border-radius: 7px;
-    cursor:pointer;
-    border: none;
+    font-family: inherit; font-size: 15px; font-weight: 600; padding: 12px 28px;
+    border-radius: 7px; cursor:pointer; border: none; background: var(--navy); color:#fff;
   }
-  .btn-primary{
-    background: var(--navy);
-    color:#fff;
-  }
-  .btn-primary:hover{ background: var(--navy-deep); }
-  .btn-ghost{
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--line);
-  }
-  .btn-ghost:hover{ border-color: var(--muted); }
-  .btn:disabled{ opacity:0; pointer-events:none; }
+  .btn:hover{ background: var(--navy-deep); }
 
-  /* ---- Confirmation ---- */
-  .confirm{
-    text-align:center;
-    padding: 40px 24px;
-    display:none;
-  }
-  .confirm.active{ display:block; }
-  .confirm h2{
-    color: var(--navy);
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  .confirm p{
-    color: var(--muted);
-    font-size: 14px;
-    line-height:1.6;
-  }
+  .status-msg{ text-align:center; font-size: 13px; color: var(--muted); margin-top: 14px; min-height: 18px; }
+  .status-msg.error{ color: #b00020; }
+  .status-msg.success{ color: #1a7d1a; }
 
-  .status-msg{
-    text-align:center;
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 14px;
-    min-height: 18px;
-  }
+  /* ---- File list, drop zone, size cap, link fallback ---- */
+  .label-like{ display:block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .dropzone{ border: 2px dashed var(--line); border-radius: 8px; padding: 20px 16px; text-align: center; cursor: pointer; background: #fff; transition: border-color .15s, background .15s; }
+  .dropzone:hover, .dropzone:focus, .dropzone.dragover{ border-color: var(--navy); background: #f4f6f8; outline: none; }
+  .dropzone:focus-visible{ box-shadow: 0 0 0 3px rgba(12,45,85,0.15); }
+  .dz-main{ font-size: 14px; font-weight: 600; color: var(--ink); }
+  .dz-link{ color: var(--navy); text-decoration: underline; }
+  .dz-hint{ font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .filelist{ list-style: none; margin: 12px 0 0; padding: 0; }
+  .filerow{ display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+  .filerow:first-child{ border-top: none; }
+  .fname{ font-size: 13px; font-weight: 600; word-break: break-all; }
+  .fsize{ font-size: 12px; color: var(--muted); font-weight: 400; display: block; }
+  .filerow input[type="text"]{ padding: 7px 9px; font-size: 13px; }
+  .fremove{ background: none; border: 1px solid var(--line); border-radius: 6px; font: inherit; font-size: 12px; padding: 6px 10px; cursor: pointer; color: var(--ink); }
+  .fremove:hover{ border-color: #b00020; color: #b00020; }
+  @media (max-width: 480px){ .filerow{ grid-template-columns: 1fr auto; } .filerow .fnote{ grid-column: 1 / -1; order: 3; } }
+  .filesummary{ font-size: 12.5px; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .filesummary.over{ color: #b00020; font-weight: 600; }
+  .filewarn{ font-size: 12.5px; color: #8a5a00; margin-top: 8px; }
+  .linkbox{ margin-top: 12px; }
+  .btn:disabled{ opacity: 0.6; cursor: not-allowed; }
 </style>
 </head>
 <body>
 
 <div class="wrap">
 
-  <div class="brand-bar"><span>Digital Output Survey</span></div>
+  <div class="brand-bar"><span>Print Request</span></div>
   <div class="hero">
     <img src="ez-overflow-logo.png" alt="EZ Overflow — B2B Printing Partner">
   </div>
   <div class="tagline">
-    <p>Trade Only — Exclusive for EZ Partners</p>
-  
+    <p>EZ Overflow — Print Services</p>
+    <p class="sub">Submit a job for production, or upload sample files</p>
   </div>
 
-  <div class="progress-track" id="progressTrack">
-    <div class="progress-step active" data-step="1"><div class="progress-dot">1</div></div>
-    <div class="progress-line"></div>
-    <div class="progress-step" data-step="2"><div class="progress-dot">2</div></div>
-    <div class="progress-line"></div>
-    <div class="progress-step" data-step="3"><div class="progress-dot">3</div></div>
-  </div>
+  <form id="intakeForm">
 
-  <form id="surveyForm">
-
-    <!-- STEP 1 -->
-    <div class="section active" data-section="1">
-      <span class="pill">Your info</span>
-
+    <!-- ACCESS + REQUEST TYPE -->
+    <div class="section">
+      <span class="pill">Get Started</span>
       <div class="row-2">
         <div class="field">
-          <label>Company name<span class="req">*</span></label>
-          <input type="text" name="company_name" required>
+          <label for="password">Access Password<span class="req">*</span></label>
+          <div class="hint">Provided to you by EZ Overflow</div>
+          <input type="password" id="password" autocomplete="off" required>
         </div>
         <div class="field">
-          <label>Contact name<span class="req">*</span></label>
-          <input type="text" name="contact_name" required>
+          <span class="label-like" id="typeLabel">Production or Samples?<span class="req">*</span></span>
+          <div class="choice-group" role="radiogroup" aria-labelledby="typeLabel">
+            <label class="choice"><input type="radio" name="submissionType" value="Print Job — Full Order" checked> Production Printing Request</label>
+            <label class="choice"><input type="radio" name="submissionType" value="Sample Files — Prospective Customer"> Sample Files (for a specific printer)</label>
+          </div>
         </div>
       </div>
+    </div>
 
+    <!-- CONTACT (always shown) -->
+    <div class="section">
+      <span class="pill">Contact Info</span>
       <div class="row-2">
         <div class="field">
-          <label>Contact email<span class="req">*</span></label>
-          <input type="email" name="contact_email" required>
+          <label for="companyName">Company Name<span class="req">*</span></label>
+          <input type="text" id="companyName" autocomplete="organization" required>
         </div>
         <div class="field">
-          <label>Contact phone</label>
-          <input type="tel" name="contact_phone">
+          <label for="contactName">Contact Name<span class="req">*</span></label>
+          <input type="text" id="contactName" autocomplete="name" required>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label for="contactEmail">Contact Email<span class="req">*</span></label>
+          <input type="email" id="contactEmail" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" autocomplete="tel">
         </div>
       </div>
     </div>
 
-    <!-- STEP 2 -->
-    <div class="section" data-section="2">
-      <span class="pill">Job specs</span>
-
+    <!-- SAMPLE PATH ONLY -->
+    <div class="section hidden" id="sampleSection">
+      <span class="pill">Sample Details</span>
       <div class="field">
-        <label>EZ Overflow — use case</label>
-        <div class="hint">Optional — but helps us determine the best approach for your shop</div>
-        <div class="choice-group">
-          <label class="choice"><input type="checkbox" name="use_case" value="Introduce Digital Printing to Clients"> Introduce digital printing to clients</label>
-          <label class="choice"><input type="checkbox" name="use_case" value="Increase Capacity/Overflow"> Increase capacity / overflow</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Print volume per job</label>
+        <label for="equipment">Which equipment is this for?</label>
         <div class="hint">Optional</div>
-        <div class="choice-group grid-2">
-          <label class="choice"><input type="radio" name="volume" value="< 500"> &lt; 500</label>
-          <label class="choice"><input type="radio" name="volume" value="500-2,500"> 500 – 2,500</label>
-          <label class="choice"><input type="radio" name="volume" value="2,500-10,000"> 2,500 – 10,000</label>
-          <label class="choice"><input type="radio" name="volume" value="10,000+"> 10,000+</label>
-          <label class="choice"><input type="radio" name="volume" value="Other" data-other-toggle="volume_other_input"> Other</label>
+        <select id="equipment">
+          <option value="">-- select --</option>
+          <option>BP-1200S</option>
+          <option>AstroNova AJ800</option>
+          <option>DGI Presto</option>
+          <option>Riso MH9450</option>
+          <option>Riso GL</option>
+          <option>Not sure</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="label-like">Files</span>
+        <div id="sampleFilesWidget"></div>
+      </div>
+      <div class="field">
+        <label for="sendingPaperSampleShort">Sending a physical paper sample too?</label>
+        <select id="sendingPaperSampleShort">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div id="mailNoticeShort" class="boundary-note gold hidden">
+        Mail your physical sample to: EZ-HiTech, Attn: EZ Overflow, 1140 US 22 West, Mountainside, NJ 07092. Write your job number on the package once you receive it after submitting.
+      </div>
+      <div id="sampleStockBlock" class="hidden">
+        <div class="hint" style="margin-top:14px;">Tell us about the paper stock so we print your test correctly</div>
+        <div class="row-2">
+          <div class="field">
+            <label for="stockBrandSample">Brand / Mill</label>
+            <input type="text" id="stockBrandSample">
+          </div>
+          <div class="field">
+            <label for="stockWeightSample">Weight</label>
+            <input type="text" id="stockWeightSample" placeholder="e.g. 80lb text, 120gsm">
+          </div>
         </div>
-        <input type="text" class="other-input" id="volume_other_input" name="volume_other_text" placeholder="Please specify">
-      </div>
-
-      <div class="boundary-note">
-        EZ Overflow currently handles printing and in-line booklet finishing. If your job requires offline cutting, folding, or bindery, let us know so we can confirm fit.
-      </div>
-
-      <div class="field">
-        <label>Finishing requirements</label>
-        <div class="choice-group">
-          <label class="choice"><input type="radio" name="finishing" value="No - flat sheets / booklet only"> No — flat sheets / booklet only</label>
-          <label class="choice"><input type="radio" name="finishing" value="Yes - requires offline cutting, folding, or bindery"> Yes — requires offline cutting, folding, or bindery</label>
-          <label class="choice"><input type="radio" name="finishing" value="Not sure"> Not sure</label>
+        <div class="row-2">
+          <div class="field">
+            <label for="stockSizeSample">Size</label>
+            <input type="text" id="stockSizeSample">
+          </div>
+          <div class="field">
+            <label for="stockColorSample">Color</label>
+            <input type="text" id="stockColorSample">
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="stockTypeSample">Stock Type</label>
+            <select id="stockTypeSample">
+              <option>Bond</option>
+              <option>Text</option>
+              <option>Cover</option>
+              <option>Index</option>
+              <option>Synthetic</option>
+              <option>Specialty (please describe)</option>
+              <option>Not Sure</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="grainDirectionSample">Grain Direction</label>
+            <select id="grainDirectionSample">
+              <option>Grain Long</option>
+              <option>Grain Short</option>
+              <option>Not Sure</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="coatedSample">Coated or Uncoated?</label>
+          <select id="coatedSample">
+            <option>Uncoated</option>
+            <option>Coated</option>
+            <option>Not Sure</option>
+          </select>
+        </div>
+        <div class="boundary-note gold">
+          If this sample is for the AstroNova AJ800 or DGI Presto, note: we can't print on coated stock with inkjet unless it's been pre-treated — which we don't currently offer. If you're not sure, mark "Not Sure" above and we'll follow up.
+        </div>
+        <div class="field">
+          <label for="stockDescriptionSample">Full Description</label>
+          <textarea id="stockDescriptionSample"></textarea>
         </div>
       </div>
-
-      <div class="field">
-        <label>Substrate / paper notes</label>
-        <div class="hint">Optional — any specific paper or substrate needs?</div>
-        <input type="text" name="substrate_notes">
-      </div>
-
-      <div class="field">
-        <label>Interested in specialty color?</label>
-        <div class="hint">Optional. Our Sharp 6-color press runs effects that CMYK alone can't produce: metallics, fluorescent brights, white, and texture. If you're familiar with foil or metallic, you have the concept. It works a bit differently on digital, and many shops are working out how embellishments fit their output. Tell us the effect you want and we'll work out how to build it.</div>
-        <div class="choice-group">
-          <label class="choice"><input type="checkbox" name="specialty_color" value="Metallic (gold or silver accents, or full color printed over metal)"> Metallic (gold or silver accents, or full color printed over metal)</label>
-          <label class="choice"><input type="checkbox" name="specialty_color" value="Fluorescent and pastel (brights and tints CMYK can't reach)"> Fluorescent and pastel (brights and tints CMYK can't reach)</label>
-          <label class="choice"><input type="checkbox" name="specialty_color" value="White (printing on clear film, dark, or colored stock)"> White (printing on clear film, dark, or colored stock)</label>
-          <label class="choice"><input type="checkbox" name="specialty_color" value="Texture, dimension, or spot gloss"> Texture, dimension, or spot gloss</label>
-          <label class="choice"><input type="checkbox" name="specialty_color" value="A brand color we've struggled to match"> A brand color we've struggled to match</label>
-          <label class="choice"><input type="checkbox" name="specialty_color" value="Not sure, show me what's possible"> Not sure, show me what's possible</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>What are you trying to achieve?</label>
-        <div class="hint">Optional. Describe the look, or the job you lost because you couldn't produce it.</div>
-        <textarea name="specialty_notes"></textarea>
-      </div>
-
-      <div class="field">
-        <label>Typical jobs for overflow</label>
-        <div class="hint">Optional</div>
-        <textarea name="job_description"></textarea>
+      <div id="sampleMediaPreference" class="field">
+        <label for="mediaPreference">What would you like this printed on?</label>
+        <div class="hint">Since you're not sending physical stock, briefly describe what you'd like used — e.g. "your standard white cover stock," "something with a metallic finish," or "no preference, your recommendation"</div>
+        <textarea id="mediaPreference"></textarea>
       </div>
     </div>
 
-    <!-- STEP 3 -->
-    <div class="section" data-section="3">
-      <span class="pill">Logistics</span>
+    <!-- FULL ORDER PATH -->
+    <div id="fullOrderSections">
 
-      <div class="field">
-        <label>Requested turn time</label>
-        <div class="hint">Optional</div>
-        <div class="choice-group grid-2">
-          <label class="choice"><input type="radio" name="turn_time" value="Same day / Next Day"> Same day / next day</label>
-          <label class="choice"><input type="radio" name="turn_time" value="48 Hours"> 48 hours</label>
-          <label class="choice"><input type="radio" name="turn_time" value="72 Hours"> 72 hours</label>
-          <label class="choice"><input type="radio" name="turn_time" value="4-5 Business Days"> 4–5 business days</label>
-          <label class="choice"><input type="radio" name="turn_time" value="Other" data-other-toggle="turn_time_other_input"> Other</label>
+      <div class="section">
+        <span class="pill">Job Details</span>
+        <div class="field">
+          <label for="jobName">Job Name / Description</label>
+          <input type="text" id="jobName">
         </div>
-        <input type="text" class="other-input" id="turn_time_other_input" name="turn_time_other_text" placeholder="Please specify">
+        <div class="row-2">
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" min="1">
+          </div>
+          <div class="field">
+            <label for="sides">Sides</label>
+            <select id="sides">
+              <option>Single-sided</option>
+              <option>Double-sided</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="finishedSize">Finished Size</label>
+          <select id="finishedSize">
+            <option>8.5" x 11"</option>
+            <option>8.5" x 14"</option>
+            <option>11" x 17"</option>
+            <option>12" x 18"</option>
+            <option>13" x 19"</option>
+            <option>Larger — please inquire</option>
+          </select>
+        </div>
+        <div class="boundary-note">
+          Need something larger than 13" x 19"? Contact us before submitting so we can confirm we can accommodate it.
+        </div>
       </div>
 
-      <div class="field">
-        <label>Preferred handoff method</label>
-        <div class="choice-group">
-          <label class="choice"><input type="checkbox" name="handoff" value="Email"> Email</label>
-          <label class="choice"><input type="checkbox" name="handoff" value="File Portal"> File portal</label>
-          <label class="choice"><input type="checkbox" name="handoff" value="Other" data-other-toggle="handoff_other_input"> Other</label>
+      <div class="section">
+        <span class="pill">Stock Specification</span>
+        <div class="hint">Customer-supplied — EZ Overflow doesn't keep house stock on hand</div>
+        <div class="row-2">
+          <div class="field">
+            <label for="stockBrand">Brand / Mill</label>
+            <input type="text" id="stockBrand">
+          </div>
+          <div class="field">
+            <label for="stockWeight">Weight</label>
+            <input type="text" id="stockWeight" placeholder="e.g. 80lb text, 120gsm">
+          </div>
         </div>
-        <input type="text" class="other-input" id="handoff_other_input" name="handoff_other_text" placeholder="Please specify">
+        <div class="row-2">
+          <div class="field">
+            <label for="stockSize">Size</label>
+            <input type="text" id="stockSize">
+          </div>
+          <div class="field">
+            <label for="stockColor">Color</label>
+            <input type="text" id="stockColor">
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="stockType">Stock Type</label>
+            <select id="stockType">
+              <option>Bond</option>
+              <option>Text</option>
+              <option>Cover</option>
+              <option>Index</option>
+              <option>Synthetic</option>
+              <option>Specialty (please describe)</option>
+              <option>Not Sure</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="grainDirection">Grain Direction</label>
+            <select id="grainDirection">
+              <option>Grain Long</option>
+              <option>Grain Short</option>
+              <option>Not Sure</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="coated">Coated or Uncoated?</label>
+          <select id="coated">
+            <option>Uncoated</option>
+            <option>Coated</option>
+            <option>Not Sure</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="stockDescription">Full Description</label>
+          <textarea id="stockDescription"></textarea>
+        </div>
+        <div class="field">
+          <label for="sendingPaperSample">Sending a physical paper sample?</label>
+          <select id="sendingPaperSample">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div id="mailNoticeFull" class="boundary-note gold hidden">
+          Mail your physical sample to: EZ-HiTech, Attn: EZ Overflow, 1140 US 22 West, Mountainside, NJ 07092. Write your job number on the package once you receive it after submitting.
+        </div>
       </div>
 
-      <div class="field">
-        <label>Proofing expectations</label>
-        <div class="choice-group">
-          <label class="choice"><input type="checkbox" name="proofing" value="PDF proof/approval only"> PDF proof / approval only</label>
-          <label class="choice"><input type="checkbox" name="proofing" value="Printed proof required (physical sample)"> Printed proof required (physical sample)</label>
-          <label class="choice"><input type="checkbox" name="proofing" value="Depends on the job/customer"> Depends on the job / customer</label>
-          <label class="choice"><input type="checkbox" name="proofing" value="Other" data-other-toggle="proofing_other_input"> Other</label>
+      <div class="section">
+        <span class="pill">Color &amp; Finishing</span>
+        <div class="row-2">
+          <div class="field">
+            <label for="colorMode">Color Mode</label>
+            <select id="colorMode">
+              <option>Full Color CMYK</option>
+              <option>Black & White</option>
+              <option>CMYK + Specialty</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="finishing">Finishing</label>
+            <select id="finishing">
+              <option>None</option>
+              <option>Staple (corner/side)</option>
+              <option>Booklet / Saddle-Stitch</option>
+              <option>Crease</option>
+              <option>Square Back Fold</option>
+              <option>Standard Fold</option>
+            </select>
+          </div>
         </div>
-        <input type="text" class="other-input" id="proofing_other_input" name="proofing_other_text" placeholder="Please specify">
+        <div id="specialtyBlock" class="field hidden">
+          <label for="specialtyDescription">Describe the specialty effect you'd like</label>
+          <div class="hint">e.g. silver logo, white underprint on dark stock</div>
+          <textarea id="specialtyDescription"></textarea>
+        </div>
       </div>
+
+      <div class="section">
+        <span class="pill">Timing</span>
+        <div class="row-2">
+          <div class="field">
+            <label for="proofRequired">Proof Required?</label>
+            <select id="proofRequired">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="neededBy">Needed By</label>
+            <input type="date" id="neededBy">
+          </div>
+        </div>
+        <div id="proofNote" class="boundary-note hidden">
+          Want a proof first? Just build a day or two extra into your Needed By date — we'll pause for your sign-off before printing starts.
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="pill">Files</span>
+        <div class="field">
+          <span class="label-like">Upload your files</span>
+          <div id="fullFilesWidget"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="pill">Notes</span>
+        <div class="field">
+          <textarea id="additionalNotes" rows="3" aria-label="Additional notes"></textarea>
+        </div>
+      </div>
+
     </div>
 
-    <div class="nav-row">
-      <button type="button" class="btn btn-ghost" id="backBtn" disabled>Back</button>
-      <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
-      <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Submit survey</button>
+    <div style="text-align:center; margin-top:24px;">
+      <button type="submit" class="btn" id="submitBtn">Submit</button>
     </div>
-    <div class="status-msg" id="statusMsg"></div>
+    <div id="statusMsg" class="status-msg" role="status" aria-live="polite"></div>
+
   </form>
 
-  <div class="confirm" id="confirmBlock">
-    <h2>Thanks for completing the EZ Overflow survey</h2>
-    <p>We'll review your preferences and follow up directly.</p>
-    <p>Please visit us at: <a href="https://ezhitech.com/" style="color: #0c2d55; font-weight: 600; text-decoration: underline;">EZHiTech.com</a></p>
+  <div class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo-wrap">
+        <img src="ez-hitech-logo.png" alt="EZ Hi-Tech International" class="footer-logo">
+      </div>
+      <div class="footer-divider-v"></div>
+      <div class="footer-contact">
+        <div class="footer-name">EZ Hi-Tech Services</div>
+        <div>1140 US 22 West, Mountainside, NJ 07092</div>
+        <div style="margin-top:8px;">Toll Free: <a href="tel:8002072175">(800) 207-2175</a></div>
+        <div>Tel: <a href="tel:9083178203">(908) 317-8203</a></div>
+        <div>Email: <a href="mailto:info@ezhitech.com">info@ezhitech.com</a></div>
+        <div style="margin-top:6px; opacity:0.8;">Hours: M–F, 8:00 am – 5:00 pm</div>
+      </div>
+    </div>
   </div>
 
 </div>
 
 <script>
-  // ---- CONFIGURE THIS: paste your Google Apps Script Web App URL here once deployed ----
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqEVms8LhmQpD94-tkJgepAb0KNZ9fs7747zSFWN-ysyuU2sCbpSqk4mf5paO1RtvvZg/exec";
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyfRTMINvkI5gPhK3JmoIUEW5floQoM9iffFi9OGr_yhKT_i2BKjG_plzbTlRLtLm1hzA/exec';
 
-  const totalSteps = 3;
-  let currentStep = 1;
+const radios = document.getElementsByName('submissionType');
+radios.forEach(r => r.addEventListener('change', updateVisibility));
+function updateVisibility() {
+  const isSample = document.querySelector('input[name=submissionType]:checked').value.indexOf('Sample') === 0;
+  document.getElementById('sampleSection').classList.toggle('hidden', !isSample);
+  document.getElementById('fullOrderSections').classList.toggle('hidden', isSample);
+}
+updateVisibility();
 
-  const form = document.getElementById('surveyForm');
-  const backBtn = document.getElementById('backBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const submitBtn = document.getElementById('submitBtn');
-  const statusMsg = document.getElementById('statusMsg');
-  const confirmBlock = document.getElementById('confirmBlock');
+document.getElementById('colorMode').addEventListener('change', function () {
+  document.getElementById('specialtyBlock').classList.toggle('hidden', this.value !== 'CMYK + Specialty');
+});
 
-  // Show/hide the write-in text box when an "Other" option is selected
-  document.querySelectorAll('[data-other-toggle]').forEach(control=>{
-    const targetInput = document.getElementById(control.dataset.otherToggle);
-    const groupName = control.name;
+document.getElementById('proofRequired').addEventListener('change', function () {
+  document.getElementById('proofNote').classList.toggle('hidden', this.value !== 'Yes');
+});
 
-    control.addEventListener('change', ()=>{
-      if (control.type === 'radio'){
-        // Radio groups: show only if this specific "Other" radio is the one checked
-        document.querySelectorAll(`input[name="${groupName}"]`).forEach(sibling=>{
-          const siblingTarget = sibling.dataset.otherToggle ? document.getElementById(sibling.dataset.otherToggle) : null;
-          if (siblingTarget) siblingTarget.classList.toggle('show', sibling.checked);
-        });
-      } else {
-        // Checkboxes: independent toggle
-        targetInput.classList.toggle('show', control.checked);
-      }
-    });
+document.getElementById('sendingPaperSample').addEventListener('change', function () {
+  document.getElementById('mailNoticeFull').classList.toggle('hidden', this.value !== 'Yes');
+});
+document.getElementById('sendingPaperSampleShort').addEventListener('change', function () {
+  const sendingSample = this.value === 'Yes';
+  document.getElementById('mailNoticeShort').classList.toggle('hidden', !sendingSample);
+  document.getElementById('sampleStockBlock').classList.toggle('hidden', !sendingSample);
+  document.getElementById('sampleMediaPreference').classList.toggle('hidden', sendingSample);
+});
+
+// ===== File lists (one per path), 25 MB total cap, link fallback =====
+// The cap applies to the total of all files because they travel in a single request.
+// 25 MB is a conservative placeholder: a single 24.9 MB file was tested and passed, a 44.5 MB file hung.
+const MAX_TOTAL_BYTES = 25 * 1024 * 1024;
+const MAX_TOTAL_LABEL = '25 MB';
+const MAX_LINKS = 10;
+
+function formatSize(bytes) {
+  if (bytes < 1024 * 1024) { return Math.max(1, Math.round(bytes / 1024)) + ' KB'; }
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function parseLinks(raw) {
+  const valid = [], invalid = [];
+  String(raw || '').split(/\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean).forEach(function (l) {
+    if (/^https?:\/\/\S+$/i.test(l) && l.length <= 500) { valid.push(l); } else { invalid.push(l); }
   });
+  return { valid: valid, invalid: invalid };
+}
 
-  // Replaces a literal "Other" value with the person's actual write-in text
-  function resolveOther(payload, fieldName, otherTextKey){
-    const val = payload[fieldName];
-    if (!val) return;
-    const otherText = (payload[otherTextKey] || '').trim();
-    if (Array.isArray(val)){
-      const idx = val.indexOf('Other');
-      if (idx !== -1) val[idx] = otherText ? `Other: ${otherText}` : 'Other (unspecified)';
-    } else if (val === 'Other'){
-      payload[fieldName] = otherText ? `Other: ${otherText}` : 'Other (unspecified)';
+function clock(ms) {
+  const s = Math.floor(ms / 1000);
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+
+function readFile(file, note) {
+  return new Promise(function (resolve, reject) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      resolve({
+        fileName: file.name,
+        mimeType: file.type || 'application/octet-stream',
+        base64: String(reader.result).split(',')[1] || '',
+        note: (note || '').trim()
+      });
+    };
+    reader.onerror = function () { reject(reader.error || new Error('Could not read ' + file.name)); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function createFileManager(rootId, idPrefix) {
+  const root = document.getElementById(rootId);
+  root.innerHTML =
+    '<div class="dropzone" tabindex="0" role="button" aria-label="Add files. Press Enter to choose files, or drag files here.">' +
+      '<div class="dz-main">Drag files here or <span class="dz-link">choose files</span></div>' +
+      '<div class="dz-hint">You can add files from more than one folder. Add as many times as you need.</div>' +
+      '<input type="file" multiple hidden aria-label="Choose files to upload">' +
+    '</div>' +
+    '<div class="filewarn hidden" role="alert"></div>' +
+    '<ul class="filelist"></ul>' +
+    '<div class="filesummary"></div>' +
+    '<div class="boundary-note gold overcap hidden"></div>' +
+    '<div class="field linkbox hidden">' +
+      '<label for="' + idPrefix + 'Links">Share link for large files</label>' +
+      '<div class="hint">Paste a link (Google Drive, Dropbox, WeTransfer, OneDrive), one per line. Set it to "anyone with the link can view" and keep it active until we confirm your files arrived.</div>' +
+      '<textarea id="' + idPrefix + 'Links" rows="3" placeholder="https://..."></textarea>' +
+    '</div>';
+
+  const zone = root.querySelector('.dropzone');
+  const input = root.querySelector('input[type=file]');
+  const warn = root.querySelector('.filewarn');
+  const list = root.querySelector('.filelist');
+  const summary = root.querySelector('.filesummary');
+  const over = root.querySelector('.overcap');
+  const linkbox = root.querySelector('.linkbox');
+  const links = root.querySelector('textarea');
+
+  let items = [];
+  let seq = 0;
+  let linksShown = false;   // once the cap has been hit, the link box stays available
+
+  const keyOf = function (f) { return f.name + '|' + f.size + '|' + f.lastModified; };
+  const total = function () { return items.reduce(function (n, it) { return n + it.file.size; }, 0); };
+  const showWarn = function (msg) { warn.textContent = msg; warn.classList.toggle('hidden', !msg); };
+
+  function render() {
+    list.textContent = '';
+    items.forEach(function (it) {
+      const li = document.createElement('li');
+      li.className = 'filerow';
+
+      const nameBox = document.createElement('div');
+      const nm = document.createElement('span'); nm.className = 'fname'; nm.textContent = it.file.name;
+      const sz = document.createElement('span'); sz.className = 'fsize'; sz.textContent = formatSize(it.file.size);
+      nameBox.appendChild(nm); nameBox.appendChild(sz);
+
+      const note = document.createElement('input');
+      note.type = 'text'; note.className = 'fnote'; note.maxLength = 200; note.value = it.note;
+      note.placeholder = 'What is this file used for? (optional)';
+      note.setAttribute('aria-label', 'What is ' + it.file.name + ' used for? (optional)');
+      note.addEventListener('input', function () { it.note = note.value; });
+
+      const rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'fremove'; rm.textContent = 'Remove';
+      rm.setAttribute('aria-label', 'Remove ' + it.file.name);
+      rm.addEventListener('click', function () {
+        items = items.filter(function (x) { return x.id !== it.id; });
+        showWarn('');
+        render();
+      });
+
+      li.appendChild(nameBox); li.appendChild(note); li.appendChild(rm);
+      list.appendChild(li);
+    });
+
+    const t = total();
+    summary.textContent = items.length
+      ? items.length + (items.length === 1 ? ' file' : ' files') + ' \u00b7 ' + formatSize(t) + ' of ' + MAX_TOTAL_LABEL
+      : '';
+    summary.classList.toggle('over', t > MAX_TOTAL_BYTES);
+    if (t > MAX_TOTAL_BYTES) {
+      linksShown = true;
+      over.textContent = 'Your files total ' + formatSize(t) + ', which is over the ' + MAX_TOTAL_LABEL +
+        ' limit for one submission. Remove files until you are under the limit, and paste a share link below for the large ones.';
     }
-    delete payload[otherTextKey];
+    over.classList.toggle('hidden', t <= MAX_TOTAL_BYTES);
+    linkbox.classList.toggle('hidden', !linksShown);
   }
 
-  function showStep(step){
-    document.querySelectorAll('.section').forEach(sec=>{
-      sec.classList.toggle('active', Number(sec.dataset.section) === step);
+  function addFiles(fileArray, skippedFolders) {
+    const have = new Set(items.map(function (it) { return keyOf(it.file); }));
+    const msgs = [];
+    const empties = [];
+    let dupes = 0;
+    Array.from(fileArray || []).forEach(function (f) {
+      if (!f) { return; }
+      if (f.size === 0) { empties.push(f.name); return; }
+      if (have.has(keyOf(f))) { dupes++; return; }
+      have.add(keyOf(f));
+      items.push({ id: ++seq, file: f, note: '' });
     });
-    document.querySelectorAll('.progress-step').forEach(ps=>{
-      const s = Number(ps.dataset.step);
-      ps.classList.toggle('active', s === step);
-      ps.classList.toggle('done', s < step);
-    });
-    backBtn.disabled = step === 1;
-    nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
-    submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
-  }
-
-  function validateStep(step){
-    const section = document.querySelector(`.section[data-section="${step}"]`);
-    const requiredFields = section.querySelectorAll('[required]');
-    for (const f of requiredFields){
-      if (!f.value.trim()){
-        f.focus();
-        statusMsg.textContent = 'Please fill in the required fields before continuing.';
-        return false;
-      }
+    if (skippedFolders) {
+      msgs.push(skippedFolders + (skippedFolders === 1 ? ' folder was' : ' folders were') +
+        ' skipped. Folders cannot be uploaded; add the files inside instead.');
     }
-    statusMsg.textContent = '';
-    return true;
+    if (empties.length) { msgs.push('Skipped an empty file: ' + empties.join(', ') + '.'); }
+    if (dupes) { msgs.push(dupes + (dupes === 1 ? ' file was' : ' files were') + ' already added.'); }
+    showWarn(msgs.join(' '));
+    render();
   }
 
-  nextBtn.addEventListener('click', ()=>{
-    if (!validateStep(currentStep)) return;
-    currentStep = Math.min(currentStep + 1, totalSteps);
-    showStep(currentStep);
-    window.scrollTo({top:0, behavior:'smooth'});
+  zone.addEventListener('click', function (e) { if (e.target !== input) { input.click(); } });
+  zone.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); }
   });
-
-  backBtn.addEventListener('click', ()=>{
-    currentStep = Math.max(currentStep - 1, 1);
-    showStep(currentStep);
-    window.scrollTo({top:0, behavior:'smooth'});
+  input.addEventListener('change', function () {
+    addFiles(input.files);   // copies the File objects before the picker is cleared
+    input.value = '';        // lets the customer pick the same file again later
   });
-
-  form.addEventListener('submit', function(e){
+  ['dragenter', 'dragover'].forEach(function (name) {
+    zone.addEventListener(name, function (e) { e.preventDefault(); zone.classList.add('dragover'); });
+  });
+  zone.addEventListener('dragleave', function (e) { e.preventDefault(); zone.classList.remove('dragover'); });
+  zone.addEventListener('drop', function (e) {
     e.preventDefault();
-    if (!validateStep(3)) return;
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    const formData = new FormData(form);
-    const payload = {};
-    for (const [key, value] of formData.entries()){
-      if (payload[key]){
-        payload[key] = Array.isArray(payload[key]) ? [...payload[key], value] : [payload[key], value];
-      } else {
-        payload[key] = value;
-      }
+    zone.classList.remove('dragover');
+    const dt = e.dataTransfer;
+    if (!dt) { return; }
+    const files = [];
+    let folders = 0;
+    if (dt.items && dt.items.length) {
+      Array.from(dt.items).forEach(function (item) {
+        if (item.kind !== 'file') { return; }
+        const entry = item.webkitGetAsEntry ? item.webkitGetAsEntry() : null;
+        if (entry && entry.isDirectory) { folders++; return; }
+        const f = item.getAsFile();
+        if (f) { files.push(f); }
+      });
+    } else {
+      Array.from(dt.files || []).forEach(function (f) { files.push(f); });
     }
-    resolveOther(payload, 'volume', 'volume_other_text');
-    resolveOther(payload, 'turn_time', 'turn_time_other_text');
-    resolveOther(payload, 'handoff', 'handoff_other_text');
-    resolveOther(payload, 'proofing', 'proofing_other_text');
+    addFiles(files, folders);
+  });
 
-    payload.submitted_at = new Date().toISOString();
+  return {
+    addFiles: addFiles,
+    total: total,
+    isOver: function () { return total() > MAX_TOTAL_BYTES; },
+    getItems: function () { return items; },
+    getLinks: function () { return parseLinks(links.value); },
+    toPayloadFiles: async function (onProgress) {
+      const out = [];
+      for (let i = 0; i < items.length; i++) {   // one at a time keeps memory use lower
+        if (onProgress) { onProgress(i + 1, items.length); }
+        out.push(await readFile(items[i].file, items[i].note));
+      }
+      return out;
+    },
+    reset: function () { items = []; linksShown = false; links.value = ''; showWarn(''); render(); }
+  };
+}
 
-    fetch(SCRIPT_URL, {
+const fullFiles = createFileManager('fullFilesWidget', 'full');
+const sampleFiles = createFileManager('sampleFilesWidget', 'sample');
+
+// A file dropped outside the drop zone would make the browser open it and lose the form.
+window.addEventListener('dragover', function (e) { e.preventDefault(); });
+window.addEventListener('drop', function (e) { e.preventDefault(); });
+
+// Re-applies every show/hide rule. Needed after form.reset(), which changes values without firing change events.
+function syncDependentFields() {
+  ['colorMode', 'proofRequired', 'sendingPaperSample', 'sendingPaperSampleShort'].forEach(function (id) {
+    document.getElementById(id).dispatchEvent(new Event('change'));
+  });
+  updateVisibility();
+}
+
+// Checks the real result of a submission via a <script> tag request instead of
+// fetch — this bypasses the CORS restriction that makes the no-cors POST's
+// response unreadable, since script-tag loading isn't subject to the same policy.
+function checkStatusOnce(requestId) {
+  return new Promise((resolve) => {
+    const cbName = 'cb_' + requestId;
+    const script = document.createElement('script');
+    let settled = false;
+
+    window[cbName] = function (result) {
+      if (settled) return;
+      settled = true;
+      delete window[cbName];
+      script.remove();
+      resolve(result);
+    };
+
+    script.onerror = function () {
+      if (settled) return;
+      settled = true;
+      delete window[cbName];
+      script.remove();
+      resolve({ status: 'error' });
+    };
+
+    script.src = WEB_APP_URL + '?checkId=' + encodeURIComponent(requestId) + '&callback=' + cbName;
+    document.body.appendChild(script);
+  });
+}
+
+async function pollForResult(requestId, attempts, delayMs) {
+  for (let i = 0; i < attempts; i++) {
+    await new Promise((r) => setTimeout(r, delayMs));
+    const result = await checkStatusOnce(requestId);
+    if (result && result.status && result.status !== 'pending') {
+      return result;
+    }
+  }
+  return { status: 'unknown' };
+}
+
+const form = document.getElementById('intakeForm');
+const submitBtn = document.getElementById('submitBtn');
+const statusEl = document.getElementById('statusMsg');
+let submitting = false;
+
+function setStatus(text, cls) {
+  statusEl.textContent = text;
+  statusEl.className = 'status-msg' + (cls ? ' ' + cls : '');
+}
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault();
+  if (submitting) { return; }   // ignore a second click while the first submission is running
+
+  const isSample = document.querySelector('input[name=submissionType]:checked').value.indexOf('Sample') === 0;
+  const mgr = isSample ? sampleFiles : fullFiles;
+
+  if (mgr.isOver()) {
+    setStatus('Your files are over the ' + MAX_TOTAL_LABEL + ' limit. Remove files, and paste a share link for the large ones.', 'error');
+    return;
+  }
+  const linkInfo = mgr.getLinks();
+  if (linkInfo.invalid.length) {
+    setStatus('These links do not look right: ' + linkInfo.invalid.join(', ') + '. Links must start with http:// or https://.', 'error');
+    return;
+  }
+  if (linkInfo.valid.length > MAX_LINKS) {
+    setStatus('Please paste no more than ' + MAX_LINKS + ' links.', 'error');
+    return;
+  }
+
+  submitting = true;
+  submitBtn.disabled = true;
+  const t0 = Date.now();
+  let stage = 'Preparing your files...';
+  const paint = function () { setStatus(stage + ' ' + clock(Date.now() - t0) + '. Please keep this page open.', ''); };
+  paint();
+  const timer = setInterval(paint, 1000);
+
+  try {
+    const files = await mgr.toPayloadFiles(function (i, n) { stage = 'Preparing file ' + i + ' of ' + n + '...'; paint(); });
+
+    const requestId = 'r' + Date.now() + Math.random().toString(36).slice(2);
+
+    // Hidden production-path fields still hold dropdown defaults, so only read them on a production submission.
+    const prod = function (id) { return isSample ? '' : document.getElementById(id).value; };
+    const sampleStock = isSample && document.getElementById('sendingPaperSampleShort').value === 'Yes';
+    const stock = function (fullId, sampleId) {
+      if (isSample) { return sampleStock ? document.getElementById(sampleId).value : ''; }
+      return document.getElementById(fullId).value;
+    };
+
+    const payload = {
+      requestId: requestId,
+      password: document.getElementById('password').value,
+      submissionType: document.querySelector('input[name=submissionType]:checked').value,
+      companyName: document.getElementById('companyName').value,
+      contactName: document.getElementById('contactName').value,
+      contactEmail: document.getElementById('contactEmail').value,
+      phone: document.getElementById('phone').value,
+      equipment: isSample ? document.getElementById('equipment').value : '',
+      mediaPreference: isSample ? document.getElementById('mediaPreference').value : '',
+      sendingPaperSample: isSample
+        ? document.getElementById('sendingPaperSampleShort').value
+        : document.getElementById('sendingPaperSample').value,
+      jobName: prod('jobName'),
+      quantity: prod('quantity'),
+      finishedSize: prod('finishedSize'),
+      sides: prod('sides'),
+      stockBrand: stock('stockBrand', 'stockBrandSample'),
+      stockDescription: stock('stockDescription', 'stockDescriptionSample'),
+      stockWeight: stock('stockWeight', 'stockWeightSample'),
+      stockSize: stock('stockSize', 'stockSizeSample'),
+      stockColor: stock('stockColor', 'stockColorSample'),
+      stockType: stock('stockType', 'stockTypeSample'),
+      grainDirection: stock('grainDirection', 'grainDirectionSample'),
+      coated: stock('coated', 'coatedSample'),
+      colorMode: prod('colorMode'),
+      specialtyDescription: prod('specialtyDescription'),
+      finishing: prod('finishing'),
+      proofRequired: prod('proofRequired'),
+      neededBy: prod('neededBy'),
+      additionalNotes: prod('additionalNotes'),
+      fileLinks: linkInfo.valid.join('\n'),
+      files: files
+    };
+
+    stage = files.length
+      ? 'Sending ' + files.length + (files.length === 1 ? ' file' : ' files') + ' (' + formatSize(mgr.total()) + ')...'
+      : 'Sending your request...';
+    paint();
+    await fetch(WEB_APP_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
-    })
-    .then(()=>{
-      form.style.display = 'none';
-      document.getElementById('progressTrack').style.display = 'none';
-      confirmBlock.classList.add('active');
-    })
-    .catch(()=>{
-      statusMsg.textContent = 'Something went wrong submitting the survey. Please try again.';
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit survey';
     });
-  });
 
-  showStep(currentStep);
+    stage = 'Checking submission...';
+    paint();
+    const result = await pollForResult(requestId, 15, 1200);
+
+    if (result.status === 'success') {
+      setStatus('Submitted. Your job number is ' + result.jobNumber + '. Please keep it for your records.', 'success');
+      form.reset();
+      fullFiles.reset();
+      sampleFiles.reset();
+      syncDependentFields();
+    } else if (result.status === 'unauthorized') {
+      setStatus('Password is incorrect, please contact us for access.', 'error');
+    } else if (result.status === 'error') {
+      setStatus('Something went wrong processing your submission. Please try again or contact us directly.', 'error');
+    } else {
+      setStatus('We could not confirm your submission went through. Please try again or contact us directly before assuming it was received.', 'error');
+    }
+  } catch (err) {
+    setStatus('Something went wrong submitting the form. Please try again or contact us directly.', 'error');
+  } finally {
+    clearInterval(timer);
+    submitting = false;
+    submitBtn.disabled = false;
+  }
+});
+
+syncDependentFields();
 </script>
 
 </body>
